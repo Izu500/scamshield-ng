@@ -7,116 +7,167 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      max-width: 700px;
-      margin: 40px auto;
-      padding: 20px;
-      background: #f7f9fc;
+      background: #f4f7f8;
+      margin: 0;
+      padding: 30px 15px;
       color: #222;
     }
 
-    .card {
-      background: white;
-      padding: 24px;
-      border-radius: 12px;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+    .container {
+      max-width: 700px;
+      margin: auto;
+      background: #fff;
+      padding: 25px;
+      border-radius: 14px;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
     }
 
     h2 {
       margin-top: 0;
-      color: #0a7a33;
+      color: #0b7a3b;
+    }
+
+    p {
+      line-height: 1.5;
     }
 
     textarea {
       width: 100%;
+      min-height: 140px;
       padding: 12px;
       font-size: 16px;
       border: 1px solid #ccc;
-      border-radius: 8px;
+      border-radius: 10px;
       resize: vertical;
       box-sizing: border-box;
     }
 
     button {
-      margin-top: 12px;
-      padding: 12px 20px;
-      background: #0a7a33;
+      margin-top: 15px;
+      padding: 12px 22px;
+      font-size: 16px;
+      background: #0b7a3b;
       color: white;
       border: none;
-      border-radius: 8px;
-      font-size: 16px;
+      border-radius: 10px;
       cursor: pointer;
     }
 
     button:hover {
-      background: #086228;
+      background: #095f2e;
     }
 
     #result {
       margin-top: 20px;
-      font-size: 20px;
+      font-size: 22px;
       font-weight: bold;
     }
 
     #details {
       margin-top: 10px;
-      color: #555;
+      font-size: 16px;
+      color: #444;
+    }
+
+    .tip {
+      margin-top: 20px;
+      padding: 12px;
+      background: #f1fff5;
+      border-left: 4px solid #0b7a3b;
+      border-radius: 8px;
     }
   </style>
 </head>
 <body>
-  <div class="card">
+  <div class="container">
     <h2>ScamShield NG 🇳🇬</h2>
-    <p>Paste an SMS below to check whether it looks suspicious.</p>
+    <p>Paste an SMS below to analyze whether it looks safe, suspicious, or likely to be a scam.</p>
 
-    <textarea id="sms" placeholder="Paste SMS here..." rows="6"></textarea>
+    <textarea id="sms" placeholder="Paste SMS here..."></textarea>
     <button onclick="checkSMS()">Analyze</button>
 
     <h3 id="result"></h3>
     <p id="details"></p>
+
+    <div class="tip">
+      <b>Tip:</b> Never click unknown links or share OTP with anyone.
+    </div>
   </div>
 
   <script>
+    function speak(text) {
+      window.speechSynthesis.cancel();
+      let speech = new SpeechSynthesisUtterance(text);
+      speech.lang = "en-US";
+      speech.rate = 1;
+      window.speechSynthesis.speak(speech);
+    }
+
+    function containsLink(text) {
+      return text.includes("http") || text.includes("www");
+    }
+
     function checkSMS() {
       let text = document.getElementById("sms").value.toLowerCase().trim();
 
       if (!text) {
         document.getElementById("result").innerText = "Please paste a message first.";
         document.getElementById("details").innerText = "";
+        speak("Please paste a message first.");
         return;
       }
 
       let scamWords = ["urgent", "click", "win", "free", "otp", "verify", "account blocked"];
+      let badLinks = ["bit.ly", "tinyurl", "pay-now", "secure-login"];
       let score = 0;
-      let matchedWords = [];
+      let triggers = [];
 
       scamWords.forEach(word => {
         if (text.includes(word)) {
-          score += 20;
-          matchedWords.push(word);
+          score += 15;
+          triggers.push(word);
         }
       });
 
-      if (text.includes("http")) {
+      if (containsLink(text)) {
         score += 30;
-        matchedWords.push("link detected");
+        triggers.push("link detected");
       }
+
+      badLinks.forEach(link => {
+        if (text.includes(link)) {
+          score += 40;
+          triggers.push(link);
+        }
+      });
 
       score = Math.min(score, 100);
 
       let result = "";
+      let voiceMessage = "";
+
       if (score >= 60) {
         result = "❌ Scam Message (" + score + "% risk)";
+        voiceMessage = "Warning! This is a scam message.";
       } else if (score >= 30) {
-        result = "⚠️ Suspicious (" + score + "% risk)";
+        result = "⚠️ Suspicious Message (" + score + "% risk)";
+        voiceMessage = "This message looks suspicious.";
       } else {
         result = "✅ Safe Message (" + score + "% risk)";
+        voiceMessage = "This message is safe.";
       }
 
       document.getElementById("result").innerText = result;
-      document.getElementById("details").innerText =
-        matchedWords.length > 0
-          ? "Detected triggers: " + matchedWords.join(", ")
-          : "No major scam keywords detected.";
+
+      if (triggers.length > 0) {
+        document.getElementById("details").innerText =
+          "Detected indicators: " + triggers.join(", ");
+      } else {
+        document.getElementById("details").innerText =
+          "No major scam indicators detected.";
+      }
+
+      speak(voiceMessage);
     }
   </script>
 </body>
