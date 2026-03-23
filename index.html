@@ -1,39 +1,122 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ScamShield NG</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 700px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #f7f9fc;
+      color: #222;
+    }
+
+    .card {
+      background: white;
+      padding: 24px;
+      border-radius: 12px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+    }
+
+    h2 {
+      margin-top: 0;
+      color: #0a7a33;
+    }
+
+    textarea {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      resize: vertical;
+      box-sizing: border-box;
+    }
+
+    button {
+      margin-top: 12px;
+      padding: 12px 20px;
+      background: #0a7a33;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #086228;
+    }
+
+    #result {
+      margin-top: 20px;
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    #details {
+      margin-top: 10px;
+      color: #555;
+    }
+  </style>
 </head>
 <body>
-  <h2>ScamShield NG 🇳🇬</h2>
-  <textarea id="sms" placeholder="Paste SMS here..." rows="5" cols="40"></textarea><br><br>
-  <button onclick="checkSMS()">Analyze</button>
+  <div class="card">
+    <h2>ScamShield NG 🇳🇬</h2>
+    <p>Paste an SMS below to check whether it looks suspicious.</p>
 
-  <h3 id="result"></h3>
+    <textarea id="sms" placeholder="Paste SMS here..." rows="6"></textarea>
+    <button onclick="checkSMS()">Analyze</button>
+
+    <h3 id="result"></h3>
+    <p id="details"></p>
+  </div>
 
   <script>
     function checkSMS() {
-      let text = document.getElementById("sms").value.toLowerCase();
+      let text = document.getElementById("sms").value.toLowerCase().trim();
 
-      let scamWords = ["urgent","click","win","free","otp","verify","account blocked"];
+      if (!text) {
+        document.getElementById("result").innerText = "Please paste a message first.";
+        document.getElementById("details").innerText = "";
+        return;
+      }
+
+      let scamWords = ["urgent", "click", "win", "free", "otp", "verify", "account blocked"];
       let score = 0;
+      let matchedWords = [];
 
       scamWords.forEach(word => {
-        if(text.includes(word)) score += 20;
+        if (text.includes(word)) {
+          score += 20;
+          matchedWords.push(word);
+        }
       });
 
-      if(text.includes("http")) score += 30;
+      if (text.includes("http")) {
+        score += 30;
+        matchedWords.push("link detected");
+      }
+
+      score = Math.min(score, 100);
 
       let result = "";
-
-      if(score >= 60){
+      if (score >= 60) {
         result = "❌ Scam Message (" + score + "% risk)";
-      } else if(score >= 30){
+      } else if (score >= 30) {
         result = "⚠️ Suspicious (" + score + "% risk)";
       } else {
-        result = "✅ Safe Message";
+        result = "✅ Safe Message (" + score + "% risk)";
       }
 
       document.getElementById("result").innerText = result;
+      document.getElementById("details").innerText =
+        matchedWords.length > 0
+          ? "Detected triggers: " + matchedWords.join(", ")
+          : "No major scam keywords detected.";
     }
   </script>
 </body>
