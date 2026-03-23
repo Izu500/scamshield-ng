@@ -95,80 +95,40 @@
   </div>
 
   <script>
-    function speak(text) {
-      window.speechSynthesis.cancel();
-      let speech = new SpeechSynthesisUtterance(text);
-      speech.lang = "en-US";
-      speech.rate = 1;
-      window.speechSynthesis.speak(speech);
+  function speak(text) {
+    window.speechSynthesis.cancel();
+    let speech = new SpeechSynthesisUtterance(text);
+    speech.lang = "en-US";
+    speech.rate = 1;
+    window.speechSynthesis.speak(speech);
+  }
+
+  function checkSMS() {
+    let text = document.getElementById("sms").value.toLowerCase();
+    let scamWords = ["urgent","click","win","free","otp","verify","account blocked"];
+    let score = 0;
+
+    scamWords.forEach(word => {
+      if (text.includes(word)) score += 20;
+    });
+
+    if (text.includes("http") || text.includes("www")) score += 30;
+
+    let result = "";
+
+    if (score >= 60) {
+      result = "❌ Scam Message";
+      speak("Warning. This is a scam message.");
+    } else if (score >= 30) {
+      result = "⚠️ Suspicious Message";
+      speak("This message looks suspicious.");
+    } else {
+      result = "✅ Safe Message";
+      speak("This message is safe.");
     }
 
-    function containsLink(text) {
-      return text.includes("http") || text.includes("www");
-    }
-
-    function checkSMS() {
-      let text = document.getElementById("sms").value.toLowerCase().trim();
-
-      if (!text) {
-        document.getElementById("result").innerText = "Please paste a message first.";
-        document.getElementById("details").innerText = "";
-        speak("Please paste a message first.");
-        return;
-      }
-
-      let scamWords = ["urgent", "click", "win", "free", "otp", "verify", "account blocked"];
-      let badLinks = ["bit.ly", "tinyurl", "pay-now", "secure-login"];
-      let score = 0;
-      let triggers = [];
-
-      scamWords.forEach(word => {
-        if (text.includes(word)) {
-          score += 15;
-          triggers.push(word);
-        }
-      });
-
-      if (containsLink(text)) {
-        score += 30;
-        triggers.push("link detected");
-      }
-
-      badLinks.forEach(link => {
-        if (text.includes(link)) {
-          score += 40;
-          triggers.push(link);
-        }
-      });
-
-      score = Math.min(score, 100);
-
-      let result = "";
-      let voiceMessage = "";
-
-      if (score >= 60) {
-        result = "❌ Scam Message (" + score + "% risk)";
-        voiceMessage = "Warning! This is a scam message.";
-      } else if (score >= 30) {
-        result = "⚠️ Suspicious Message (" + score + "% risk)";
-        voiceMessage = "This message looks suspicious.";
-      } else {
-        result = "✅ Safe Message (" + score + "% risk)";
-        voiceMessage = "This message is safe.";
-      }
-
-      document.getElementById("result").innerText = result;
-
-      if (triggers.length > 0) {
-        document.getElementById("details").innerText =
-          "Detected indicators: " + triggers.join(", ");
-      } else {
-        document.getElementById("details").innerText =
-          "No major scam indicators detected.";
-      }
-
-      speak(voiceMessage);
-    }
-  </script>
+    document.getElementById("result").innerText = result;
+  }
+</script>
 </body>
 </html>
