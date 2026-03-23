@@ -94,7 +94,7 @@
     </div>
   </div>
 
-  <script>
+ <script>
   function speak(text) {
     window.speechSynthesis.cancel();
     let speech = new SpeechSynthesisUtterance(text);
@@ -103,31 +103,130 @@
     window.speechSynthesis.speak(speech);
   }
 
-  function checkSMS() {
-    let text = document.getElementById("sms").value.toLowerCase();
-    let scamWords = ["urgent","click","win","free","otp","verify","account blocked"];
-    let score = 0;
+  function containsLink(text) {
+    return text.includes("http") || text.includes("www");
+  }
 
-    scamWords.forEach(word => {
-      if (text.includes(word)) score += 20;
+  function checkSMS() {
+    let text = document.getElementById("sms").value.toLowerCase().trim();
+
+    if (!text) {
+      document.getElementById("result").innerText = "Please paste a message first.";
+      speak("Please paste a message first.");
+      return;
+    }
+
+    let highRiskWords = [
+      "otp",
+      "pin",
+      "password",
+      "verify",
+      "verification",
+      "account blocked",
+      "account suspended",
+      "account locked",
+      "card details",
+      "bvn",
+      "nin",
+      "security alert",
+      "unusual activity",
+      "login",
+      "sign in",
+      "reset password"
+    ];
+
+    let mediumRiskWords = [
+      "urgent",
+      "immediately",
+      "action required",
+      "click",
+      "click here",
+      "tap here",
+      "dear customer",
+      "limited time",
+      "offer expires",
+      "claim",
+      "reward",
+      "prize",
+      "winner",
+      "congratulations",
+      "payment failed",
+      "failed transaction",
+      "refund",
+      "cashback",
+      "loan approved",
+      "reactivate",
+      "delivery failed",
+      "parcel",
+      "customs fee",
+      "investment",
+      "double your money",
+      "guaranteed return"
+    ];
+
+    let badLinks = [
+      "bit.ly",
+      "tinyurl",
+      "goo.gl",
+      "rb.gy",
+      "t.co",
+      "pay-now",
+      "secure-login",
+      "update-kyc",
+      "freebonus"
+    ];
+
+    let score = 0;
+    let triggers = [];
+
+    highRiskWords.forEach(word => {
+      if (text.includes(word)) {
+        score += 20;
+        triggers.push(word);
+      }
     });
 
-    if (text.includes("http") || text.includes("www")) score += 30;
+    mediumRiskWords.forEach(word => {
+      if (text.includes(word)) {
+        score += 10;
+        triggers.push(word);
+      }
+    });
+
+    if (containsLink(text)) {
+      score += 30;
+      triggers.push("link detected");
+    }
+
+    badLinks.forEach(link => {
+      if (text.includes(link)) {
+        score += 40;
+        triggers.push(link);
+      }
+    });
+
+    score = Math.min(score, 100);
 
     let result = "";
+    let voiceMessage = "";
 
     if (score >= 60) {
-      result = "❌ Scam Message";
-      speak("Warning. This is a scam message.");
+      result = "❌ Scam Message (" + score + "% risk)";
+      voiceMessage = "Warning. This is a scam message.";
     } else if (score >= 30) {
-      result = "⚠️ Suspicious Message";
-      speak("This message looks suspicious.");
+      result = "⚠️ Suspicious Message (" + score + "% risk)";
+      voiceMessage = "This message looks suspicious.";
     } else {
-      result = "✅ Safe Message";
-      speak("This message is safe.");
+      result = "✅ Safe Message (" + score + "% risk)";
+      voiceMessage = "This message is safe.";
+    }
+
+    if (triggers.length > 0) {
+      result += "\nDetected: " + [...new Set(triggers)].join(", ");
     }
 
     document.getElementById("result").innerText = result;
+    speak(voiceMessage);
   }
 </script>
 </body>
