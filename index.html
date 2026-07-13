@@ -61,6 +61,7 @@
       margin-top: 20px;
       font-size: 22px;
       font-weight: bold;
+      white-space: pre-wrap;
     }
 
     #details {
@@ -105,7 +106,6 @@ function analyzeMessage() {
     let reasons = [];
     let category = "No scam pattern detected";
 
-
     // Suspicious links
     const badLinks = [
         "bit.ly",
@@ -119,10 +119,8 @@ function analyzeMessage() {
         "https://"
     ];
 
-
     // Scam keywords and risk scores
     const scamPatterns = {
-
         "password": 30,
         "otp": 35,
         "pin": 30,
@@ -141,13 +139,10 @@ function analyzeMessage() {
         "send money": 30,
         "transfer money": 30,
         "airdrop": 20
-
     };
-
 
     // Nigerian scam categories
     const scamCategories = {
-
         "bvn": "Bank Verification Scam",
         "otp": "Account Takeover / Phishing Scam",
         "investment": "Investment Fraud Scam",
@@ -157,177 +152,99 @@ function analyzeMessage() {
         "grant": "Fake Grant Scam",
         "airdrop": "Crypto Scam",
         "winner": "Fake Giveaway Scam"
-
     };
 
-
     // Check suspicious links
-
     badLinks.forEach(link => {
-
         if(text.includes(link)) {
-
             score += 40;
             triggers.push(link);
             reasons.push("Contains a suspicious link or URL pattern");
-
         }
-
     });
-
-
 
     // Check scam keywords
-
     Object.keys(scamPatterns).forEach(word => {
-
         if(text.includes(word)) {
-
             score += scamPatterns[word];
             triggers.push(word);
-
+            reasons.push(`Detected scam keyword: "${word}"`);
         }
-
     });
-
-
 
     // Detect scam category
-
     Object.keys(scamCategories).forEach(word => {
-
         if(text.includes(word)) {
-
             category = scamCategories[word];
-
         }
-
     });
 
+    // Detect social engineering behaviour
+    if(text.includes("share") && (text.includes("code") || text.includes("otp"))) {
+        score += 35;
+        reasons.push("Requests sensitive security information");
+    }
 
+    if(text.includes("money") || text.includes("payment")) {
+        score += 20;
+        reasons.push("Involves possible financial request");
+    }
 
-// Detect social engineering behaviour
+    if(text.includes("urgent") || text.includes("immediately")) {
+        score += 15;
+        reasons.push("Uses pressure or urgency tactics");
+    }
 
-if(text.includes("share") && 
-   (text.includes("code") || text.includes("otp"))) {
+    if(text.includes("click")) {
+        score += 15;
+        reasons.push("Encourages user to take immediate action");
+    }
 
-    score += 35;
-    reasons.push("Requests sensitive security information");
+    // Maximum score is 100
+    score = Math.min(score, 100);
 
-}
+    let result = "";
+    let recommendation = "";
 
+    if(score >= 60) {
+        result = "❌ LIKELY SCAM";
+        recommendation = "Do not click links, send money, or share OTP, passwords, BVN, or personal information.";
+        speak("Warning. This message appears to be a scam.");
+    }
+    else if(score >= 30) {
+        result = "⚠️ SUSPICIOUS MESSAGE";
+        recommendation = "Verify the sender and confirm information before taking any action.";
+    }
+    else {
+        result = "✅ SAFE MESSAGE";
+        recommendation = "No major threat detected. Continue practising safe online behaviour.";
+    }
 
-if(text.includes("money") || text.includes("payment")) {
+    let report = `${result}
 
-    score += 20;
-    reasons.push("Involves possible financial request");
+Risk Score: ${score}%
 
-}
+Detected Scam Type: ${category}
 
-
-if(text.includes("urgent") || text.includes("immediately")) {
-
-    score += 15;
-    reasons.push("Uses pressure or urgency tactics");
-
-}
-
-
-if(text.includes("click")) {
-
-    score += 15;
-    reasons.push("Encourages user to take immediate action");
-
-}
-
-
-// Maximum score is 100
-
-score = Math.min(score,100);
-
-
-let result = "";
-let recommendation = "";
-
-
-if(score >= 60) {
-
-    result = "❌ LIKELY SCAM";
-
-    recommendation =
-    "Do not click links, send money, or share OTP, passwords, BVN, or personal information.";
-
-}
-
-else if(score >= 30) {
-
-    result = "⚠️ SUSPICIOUS MESSAGE";
-
-    recommendation =
-    "Verify the sender and confirm information before taking any action.";
-
-}
-
-else {
-
-    result = "✅ SAFE MESSAGE";
-
-    recommendation =
-    "No major threat detected. Continue practising safe online behaviour.";
-
-}
-
-
-let report = `
-
-${result}
-
-Risk Score:
-${score}%
-
-Detected Scam Type:
-${category}
-
-Detected Indicators:
-${[...new Set(triggers)].join(", ") || "None"}
+Detected Indicators: ${[...new Set(triggers)].join(", ") || "None"}
 
 Why This Result:
-${reasons.join("\n") || "No suspicious behaviour detected"}
+${reasons.length > 0 ? reasons.join("\n") : "No suspicious behaviour detected"}
 
-Safety Recommendation:
-${recommendation}
+Safety Recommendation: ${recommendation}
 
-Powered by ScamShield.ng
+Powered by ScamShield.ng`;
 
-`;
+    document.getElementById("result").innerText = report;
+}
 
-
-document.getElementById("result").innerText = report;
-
-
-// Voice warning
-
-function analyzeMessage() {
-
-   ...
-
-   if(score >= 60){
-      speak("Warning...");
-   }
-
-} // Close analyzeMessage()
-
-
-function speak(sms){
-
-    let speech = new SpeechSynthesisUtterance(sms);
-
+function speak(message) {
+    let speech = new SpeechSynthesisUtterance(message);
     speech.rate = 1;
     speech.pitch = 1;
-
     window.speechSynthesis.speak(speech);
-
 }
+
 </script>
 </body>
 </html>
