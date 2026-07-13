@@ -328,9 +328,9 @@ else {
 
 
 // Text to speech function
-function speak(message) {
+function speak(sms) {
 
-    let speech = new SpeechSynthesisUtterance(message);
+    let speech = new SpeechSynthesisUtterance(sms);
 
     speech.rate = 1;
 
