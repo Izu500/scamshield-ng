@@ -46,7 +46,6 @@
       display: flex;
       gap: 10px;
       margin-top: 15px;
-      flex-wrap: wrap;
     }
 
     button {
@@ -58,7 +57,6 @@
       border-radius: 10px;
       cursor: pointer;
       flex: 1;
-      min-width: 120px;
     }
 
     button:hover {
@@ -67,15 +65,11 @@
 
     button.secondary {
       background: #666;
+      flex: 0.5;
     }
 
     button.secondary:hover {
       background: #555;
-    }
-
-    button:disabled {
-      background: #ccc;
-      cursor: not-allowed;
     }
 
     #result {
@@ -90,31 +84,11 @@
       border-left: 4px solid #0b7a3b;
     }
 
-    .status {
+    #details {
       margin-top: 10px;
-      padding: 10px 15px;
-      border-radius: 5px;
-      font-size: 14px;
-      display: none;
-      font-weight: bold;
-    }
-
-    .status.success {
-      background: #d4edda;
-      color: #155724;
-      display: block;
-    }
-
-    .status.error {
-      background: #f8d7da;
-      color: #721c24;
-      display: block;
-    }
-
-    .status.info {
-      background: #d1ecf1;
-      color: #0c5460;
-      display: block;
+      font-size: 16px;
+      color: #444;
+      white-space: pre-wrap;
     }
 
     .tip {
@@ -125,32 +99,22 @@
       border-radius: 8px;
     }
 
-    .voice-info {
+    .status {
       margin-top: 10px;
       padding: 10px;
-      background: #f0f0f0;
       border-radius: 5px;
-      font-size: 12px;
-      color: #666;
+      font-size: 14px;
+      font-weight: bold;
     }
 
-    .voice-status {
-      display: inline-block;
-      width: 10px;
-      height: 10px;
-      background: #999;
-      border-radius: 50%;
-      margin-right: 5px;
+    .status.speaking {
+      background: #d4edda;
+      color: #155724;
     }
 
-    .voice-status.active {
-      background: #0b7a3b;
-      animation: pulse 1s infinite;
-    }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.5; }
+    .status.error {
+      background: #f8d7da;
+      color: #721c24;
     }
   </style>
 </head>
@@ -162,370 +126,247 @@
     <textarea id="sms" placeholder="Paste SMS here..."></textarea>
     
     <div class="button-group">
-      <button onclick="analyzeMessage()">Analyze</button>
-      <button class="secondary" onclick="testVoice()">Test Voice</button>
-      <button class="secondary" onclick="stopSpeech()">Stop Voice</button>
+      <button onclick="checkSMS()">Analyze</button>
+      <button class="secondary" onclick="stopVoice()">Stop</button>
     </div>
 
-    <div id="status" class="status"></div>
-    <div id="voiceInfo" class="voice-info"></div>
-    <div id="result"></div>
+    <div id="status"></div>
+    <h3 id="result"></h3>
+    <p id="details"></p>
 
     <div class="tip">
       <b>Tip:</b> Never click unknown links or share OTP with anyone.
     </div>
   </div>
 
-<script>
-
-// Global speech variables
-let isSpeaking = false;
-let supportsSpeech = 'speechSynthesis' in window;
-
-// Show status messages
-function showStatus(message, type = 'info', duration = 4000) {
-    const statusEl = document.getElementById('status');
-    statusEl.innerText = message;
-    statusEl.className = 'status ' + type;
-    
-    if (duration > 0) {
-        setTimeout(() => {
-            statusEl.className = 'status';
-        }, duration);
-    }
-}
-
-// Update voice info
-function updateVoiceInfo(message) {
-    const voiceInfo = document.getElementById('voiceInfo');
-    voiceInfo.innerHTML = '<span class="voice-status"></span>' + message;
-}
-
-// Stop any ongoing speech
-function stopSpeech() {
-    if (supportsSpeech && window.speechSynthesis) {
+  <script>
+    function speak(text) {
+      try {
         window.speechSynthesis.cancel();
-        isSpeaking = false;
-        document.querySelector('.voice-status')?.classList.remove('active');
-        updateVoiceInfo('Voice stopped');
-        showStatus('✓ Voice stopped', 'success', 2000);
-    }
-}
-
-// Test voice function
-function testVoice() {
-    console.log("Testing voice...");
-    console.log("Speech Synthesis supported:", supportsSpeech);
-    
-    if (!supportsSpeech) {
-        showStatus("❌ Speech Synthesis not supported on this browser", 'error');
-        updateVoiceInfo('Speech Synthesis: NOT SUPPORTED');
-        return;
-    }
-
-    const synth = window.speechSynthesis;
-    console.log("Synth object:", synth);
-    console.log("Synth paused:", synth.paused);
-    
-    const voices = synth.getVoices();
-    console.log("Available voices:", voices.length);
-    
-    if (voices.length === 0) {
-        updateVoiceInfo('No voices available - waiting for voices to load...');
-        console.log("No voices loaded yet, waiting...");
-        return;
-    }
-
-    updateVoiceInfo('🔊 Speaking: Test message...');
-    showStatus('🔊 Playing test voice...', 'info', 0);
-    
-    try {
-        const utterance = new SpeechSynthesisUtterance("This is a test. The voice system is working.");
-        utterance.rate = 1;
-        utterance.pitch = 1;
-        utterance.volume = 1;
+        let speech = new SpeechSynthesisUtterance(text);
+        speech.lang = "en-US";
+        speech.rate = 1;
+        speech.pitch = 1;
+        speech.volume = 1;
         
-        // Select voice
-        if (voices.length > 0) {
-            utterance.voice = voices[0];
-            console.log("Using voice:", voices[0].name);
-        }
-
-        utterance.onstart = () => {
-            console.log("Speech started");
-            isSpeaking = true;
-            document.querySelector('.voice-status')?.classList.add('active');
+        speech.onstart = function() {
+          console.log("Speaking:", text);
+          showStatus("🔊 Speaking...", "speaking");
         };
-
-        utterance.onend = () => {
-            console.log("Speech ended");
-            isSpeaking = false;
-            document.querySelector('.voice-status')?.classList.remove('active');
-            updateVoiceInfo('✓ Test voice completed');
-            showStatus('✓ Test voice completed', 'success', 2000);
+        
+        speech.onend = function() {
+          console.log("Finished speaking");
+          hideStatus();
         };
-
-        utterance.onerror = (event) => {
-            console.error("Speech error:", event.error);
-            isSpeaking = false;
-            document.querySelector('.voice-status')?.classList.remove('active');
-            showStatus("❌ Voice error: " + event.error, 'error');
-            updateVoiceInfo('❌ Error: ' + event.error);
+        
+        speech.onerror = function(event) {
+          console.error("Speech error:", event.error);
+          showStatus("❌ Voice error", "error");
         };
-
-        synth.speak(utterance);
-        console.log("Utterance queued");
-    } catch (error) {
-        console.error("Error:", error);
-        showStatus("❌ Error: " + error.message, 'error');
+        
+        window.speechSynthesis.speak(speech);
+      } catch (error) {
+        console.error("Error in speak function:", error);
+        showStatus("❌ Error: " + error.message, "error");
+      }
     }
-}
 
-// Main analyze function
-function analyzeMessage() {
-    let text = document.getElementById("sms").value.toLowerCase();
+    function stopVoice() {
+      window.speechSynthesis.cancel();
+      hideStatus();
+    }
 
-    if (!text.trim()) {
-        document.getElementById("result").innerText = "⚠️ Please enter an SMS to analyze";
-        showStatus("❌ Text area is empty", 'error');
+    function showStatus(message, className) {
+      const status = document.getElementById("status");
+      status.innerText = message;
+      status.className = "status " + className;
+    }
+
+    function hideStatus() {
+      const status = document.getElementById("status");
+      setTimeout(() => {
+        status.innerText = "";
+        status.className = "status";
+      }, 1500);
+    }
+
+    function containsLink(text) {
+      return text.includes("http") || text.includes("www");
+    }
+
+    function checkSMS() {
+      let text = document.getElementById("sms").value.toLowerCase().trim();
+
+      if (!text) {
+        document.getElementById("result").innerText = "Please paste a message first.";
+        speak("Please paste a message first.");
         return;
-    }
+      }
 
-    let score = 0;
-    let triggers = [];
-    let reasons = [];
-    let category = "No scam pattern detected";
+      // High risk words - Security & Account related (20 points each)
+      let highRiskWords = [
+        "otp",
+        "pin",
+        "password",
+        "verify",
+        "verification",
+        "account blocked",
+        "account suspended",
+        "account locked",
+        "card details",
+        "bvn",
+        "nin",
+        "security alert",
+        "unusual activity",
+        "login",
+        "sign in",
+        "reset password",
+        "confirm identity",
+        "authenticate",
+        "mfa",
+        "two factor"
+      ];
 
-    // Suspicious links
-    const badLinks = [
+      // Medium risk words - Urgency & Financial (10 points each)
+      let mediumRiskWords = [
+        "urgent",
+        "immediately",
+        "action required",
+        "click",
+        "click here",
+        "tap here",
+        "dear customer",
+        "limited time",
+        "offer expires",
+        "claim",
+        "reward",
+        "prize",
+        "winner",
+        "congratulations",
+        "payment failed",
+        "failed transaction",
+        "refund",
+        "cashback",
+        "loan approved",
+        "reactivate",
+        "delivery failed",
+        "parcel",
+        "customs fee",
+        "investment",
+        "double your money",
+        "guaranteed return",
+        "free money",
+        "free bonus",
+        "wire transfer",
+        "send money",
+        "transfer funds",
+        "bank details",
+        "atm",
+        "airtime",
+        "recharge"
+      ];
+
+      // Very suspicious shortened URLs
+      let badLinks = [
         "bit.ly",
         "tinyurl",
+        "goo.gl",
+        "rb.gy",
         "t.co",
-        ".xyz",
-        ".top",
-        ".online",
-        ".click",
-        "http://",
-        "https://"
-    ];
+        "pay-now",
+        "secure-login",
+        "update-kyc",
+        "freebonus",
+        "verify-account",
+        "confirm-payment",
+        "reset-pin"
+      ];
 
-    // Scam keywords and risk scores
-    const scamPatterns = {
-        "password": 30,
-        "otp": 35,
-        "pin": 30,
-        "bvn": 25,
-        "verify account": 30,
-        "click here": 20,
-        "urgent": 15,
-        "immediately": 15,
-        "winner": 20,
-        "congratulations": 15,
-        "free money": 30,
-        "investment": 25,
-        "loan approved": 25,
-        "grant": 20,
-        "claim now": 25,
-        "send money": 30,
-        "transfer money": 30,
-        "airdrop": 20
-    };
+      let score = 0;
+      let triggers = [];
+      let reasons = [];
 
-    // Nigerian scam categories
-    const scamCategories = {
-        "bvn": "Bank Verification Scam",
-        "otp": "Account Takeover / Phishing Scam",
-        "investment": "Investment Fraud Scam",
-        "loan": "Fake Loan Scam",
-        "nysc": "Fake NYSC Scam",
-        "cbn": "Fake Government/Bank Scam",
-        "grant": "Fake Grant Scam",
-        "airdrop": "Crypto Scam",
-        "winner": "Fake Giveaway Scam"
-    };
+      // Check high risk words
+      highRiskWords.forEach(word => {
+        if (text.includes(word)) {
+          score += 20;
+          triggers.push(word);
+          reasons.push("🔴 Sensitive keyword detected: " + word);
+        }
+      });
 
-    // Check suspicious links
-    badLinks.forEach(link => {
+      // Check medium risk words
+      mediumRiskWords.forEach(word => {
+        if (text.includes(word)) {
+          score += 10;
+          triggers.push(word);
+          reasons.push("🟡 Risk keyword detected: " + word);
+        }
+      });
+
+      // Check for generic links
+      if (containsLink(text)) {
+        score += 30;
+        triggers.push("link detected");
+        reasons.push("🔴 Suspicious link detected");
+      }
+
+      // Check for specific bad links
+      badLinks.forEach(link => {
         if (text.includes(link)) {
-            score += 40;
-            triggers.push(link);
-            reasons.push("Contains suspicious link: " + link);
+          score += 40;
+          triggers.push(link);
+          reasons.push("🔴 Known malicious link: " + link);
         }
-    });
+      });
 
-    // Check scam keywords
-    Object.keys(scamPatterns).forEach(word => {
-        if (text.includes(word)) {
-            score += scamPatterns[word];
-            triggers.push(word);
-            reasons.push("Contains scam keyword: " + word);
-        }
-    });
+      score = Math.min(score, 100);
 
-    // Detect scam category
-    Object.keys(scamCategories).forEach(word => {
-        if (text.includes(word)) {
-            category = scamCategories[word];
-        }
-    });
+      let result = "";
+      let voiceMessage = "";
+      let recommendation = "";
 
-    // Detect social engineering behaviour
-    if (text.includes("share") && (text.includes("code") || text.includes("otp"))) {
-        score += 35;
-        reasons.push("Requests sensitive security information");
-    }
-
-    if (text.includes("money") || text.includes("payment")) {
-        score += 20;
-        reasons.push("Involves possible financial request");
-    }
-
-    if (text.includes("urgent") || text.includes("immediately")) {
-        score += 15;
-        reasons.push("Uses pressure or urgency tactics");
-    }
-
-    if (text.includes("click")) {
-        score += 15;
-        reasons.push("Encourages immediate action");
-    }
-
-    // Maximum score is 100
-    score = Math.min(score, 100);
-
-    let result = "";
-    let recommendation = "";
-    let voiceMessage = "";
-
-    if (score >= 60) {
-        result = "❌ LIKELY SCAM";
-        recommendation = "Do not click links, send money, or share OTP, passwords, BVN, or personal information.";
-        voiceMessage = "Warning! This message appears to be a scam. Do not click any links or share personal information.";
-    }
-    else if (score >= 30) {
-        result = "⚠️ SUSPICIOUS MESSAGE";
-        recommendation = "Verify the sender and confirm information before taking any action.";
-        voiceMessage = "This message looks suspicious. Please verify the sender before taking any action.";
-    }
-    else {
-        result = "✅ SAFE MESSAGE";
-        recommendation = "No major threat detected. Continue practising safe online behaviour.";
+      if (score >= 70) {
+        result = "❌ SCAM MESSAGE (" + score + "% risk)";
+        voiceMessage = "Warning! This is a scam message. Do not click links, reply, or share personal information.";
+        recommendation = "❌ Do NOT click any links, reply to this message, or provide personal/financial information.";
+      } else if (score >= 40) {
+        result = "⚠️ SUSPICIOUS MESSAGE (" + score + "% risk)";
+        voiceMessage = "Warning. This message looks suspicious. Be careful.";
+        recommendation = "⚠️ Verify the sender independently. Do not click links or provide personal information.";
+      } else if (score >= 20) {
+        result = "🟡 CAUTION MESSAGE (" + score + "% risk)";
+        voiceMessage = "This message needs attention.";
+        recommendation = "🟡 Low risk but stay alert. Verify sender before responding.";
+      } else {
+        result = "✅ SAFE MESSAGE (" + score + "% risk)";
         voiceMessage = "This message appears to be safe.";
+        recommendation = "✅ No major threats detected. Proceed normally.";
+      }
+
+      let details = "\n📊 ANALYSIS RESULTS:\n\n";
+      details += "Risk Score: " + score + "/100\n";
+      details += "Detected Threats: " + (triggers.length > 0 ? [...new Set(triggers)].join(", ") : "None") + "\n\n";
+      
+      if (reasons.length > 0) {
+        details += "REASONS:\n";
+        reasons.forEach(reason => {
+          details += "• " + reason + "\n";
+        });
+      } else {
+        details += "REASONS:\n• No suspicious patterns found\n";
+      }
+      
+      details += "\nRECOMMENDATION:\n" + recommendation;
+
+      document.getElementById("result").innerText = result;
+      document.getElementById("details").innerText = details;
+
+      // Speak warning for risky messages
+      if (score >= 40) {
+        speak(voiceMessage);
+      }
     }
-
-    let report = result + "\n\n";
-    report += "Risk Score: " + score + "%\n\n";
-    report += "Detected Scam Type: " + category + "\n\n";
-    report += "Detected Indicators: " + ([...new Set(triggers)].length > 0 ? [...new Set(triggers)].join(", ") : "None") + "\n\n";
-    report += "Why This Result:\n";
-    report += (reasons.length > 0 ? reasons.join("\n") : "No suspicious behaviour detected") + "\n\n";
-    report += "Safety Recommendation:\n" + recommendation + "\n\n";
-    report += "Powered by ScamShield.ng";
-
-    document.getElementById("result").innerText = report;
-    
-    // Trigger voice if high risk or any risk
-    if (score >= 30) {
-        speakWarning(voiceMessage);
-    }
-}
-
-// Speak warning with proper handling
-function speakWarning(message) {
-    if (!supportsSpeech) {
-        showStatus("⚠️ Voice not supported on this browser", 'error');
-        updateVoiceInfo('Speech Synthesis: NOT SUPPORTED');
-        return;
-    }
-
-    const synth = window.speechSynthesis;
-    
-    // Get voices
-    let voices = synth.getVoices();
-    
-    if (voices.length === 0) {
-        console.log("Voices not loaded, attempting to load...");
-        updateVoiceInfo('Waiting for voices to load...');
-        // Try again after a short delay
-        setTimeout(() => speakWarning(message), 500);
-        return;
-    }
-
-    // Cancel previous speech
-    synth.cancel();
-
-    try {
-        const utterance = new SpeechSynthesisUtterance(message);
-        utterance.rate = 1;
-        utterance.pitch = 1;
-        utterance.volume = 1;
-        utterance.lang = 'en-US';
-        
-        // Try to use English voice
-        const englishVoice = voices.find(v => v.lang.startsWith('en'));
-        if (englishVoice) {
-            utterance.voice = englishVoice;
-        } else {
-            utterance.voice = voices[0];
-        }
-
-        utterance.onstart = () => {
-            console.log("Speech started");
-            isSpeaking = true;
-            document.querySelector('.voice-status')?.classList.add('active');
-            updateVoiceInfo('🔊 Speaking...');
-            showStatus('🔊 Warning voice playing...', 'info', 0);
-        };
-
-        utterance.onend = () => {
-            console.log("Speech ended");
-            isSpeaking = false;
-            document.querySelector('.voice-status')?.classList.remove('active');
-            updateVoiceInfo('✓ Voice complete');
-            showStatus('✓ Voice completed', 'success', 2000);
-        };
-
-        utterance.onerror = (event) => {
-            console.error("Speech error:", event.error);
-            isSpeaking = false;
-            document.querySelector('.voice-status')?.classList.remove('active');
-            updateVoiceInfo('❌ Error: ' + event.error);
-            showStatus("❌ Voice error: " + event.error, 'error');
-        };
-
-        console.log("Speaking:", message);
-        synth.speak(utterance);
-    } catch (error) {
-        console.error("Error in speakWarning:", error);
-        showStatus("❌ Error: " + error.message, 'error');
-        updateVoiceInfo('❌ Error: ' + error.message);
-    }
-}
-
-// Initialize voices on page load
-window.addEventListener('load', () => {
-    if (supportsSpeech) {
-        const synth = window.speechSynthesis;
-        const voices = synth.getVoices();
-        console.log("Page loaded - Available voices:", voices.length);
-        
-        if (voices.length > 0) {
-            updateVoiceInfo('✓ Speech ready (' + voices.length + ' voices)');
-        } else {
-            updateVoiceInfo('⏳ Loading voices...');
-        }
-
-        // Listen for voices change
-        synth.onvoiceschanged = () => {
-            const voicesLoaded = synth.getVoices();
-            console.log("Voices loaded:", voicesLoaded.length);
-            updateVoiceInfo('✓ Speech ready (' + voicesLoaded.length + ' voices)');
-        };
-    } else {
-        updateVoiceInfo('❌ Speech Synthesis not supported');
-    }
-});
-
-</script>
+  </script>
 </body>
 </html>
