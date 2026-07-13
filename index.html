@@ -42,8 +42,14 @@
       box-sizing: border-box;
     }
 
-    button {
+    .button-group {
+      display: flex;
+      gap: 10px;
       margin-top: 15px;
+      flex-wrap: wrap;
+    }
+
+    button {
       padding: 12px 22px;
       font-size: 16px;
       background: #0b7a3b;
@@ -51,23 +57,52 @@
       border: none;
       border-radius: 10px;
       cursor: pointer;
+      flex: 1;
+      min-width: 120px;
     }
 
     button:hover {
       background: #095f2e;
     }
 
-    #result {
-      margin-top: 20px;
-      font-size: 22px;
-      font-weight: bold;
-      white-space: pre-wrap;
+    button.secondary {
+      background: #666;
     }
 
-    #details {
+    button.secondary:hover {
+      background: #555;
+    }
+
+    #result {
+      margin-top: 20px;
+      font-size: 18px;
+      font-weight: bold;
+      white-space: pre-wrap;
+      line-height: 1.6;
+      padding: 15px;
+      background: #f9f9f9;
+      border-radius: 8px;
+      border-left: 4px solid #0b7a3b;
+    }
+
+    .status {
       margin-top: 10px;
-      font-size: 16px;
-      color: #444;
+      padding: 10px;
+      border-radius: 5px;
+      font-size: 14px;
+      display: none;
+    }
+
+    .status.success {
+      background: #d4edda;
+      color: #155724;
+      display: block;
+    }
+
+    .status.error {
+      background: #f8d7da;
+      color: #721c24;
+      display: block;
     }
 
     .tip {
@@ -77,6 +112,26 @@
       border-left: 4px solid #0b7a3b;
       border-radius: 8px;
     }
+
+    .voice-indicator {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      background: #999;
+      border-radius: 50%;
+      margin-right: 5px;
+      animation: none;
+    }
+
+    .voice-indicator.active {
+      background: #0b7a3b;
+      animation: pulse 1s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
   </style>
 </head>
 <body>
@@ -85,10 +140,14 @@
     <p>Paste an SMS below to analyze whether it looks safe, suspicious, or likely to be a scam.</p>
 
     <textarea id="sms" placeholder="Paste SMS here..."></textarea>
-    <button onclick="analyzeMessage()">Analyze</button>
+    
+    <div class="button-group">
+      <button onclick="analyzeMessage()">Analyze</button>
+      <button class="secondary" onclick="stopSpeech()">Stop Voice</button>
+    </div>
 
-    <h3 id="result"></h3>
-    <p id="details"></p>
+    <div id="status" class="status"></div>
+    <div id="result"></div>
 
     <div class="tip">
       <b>Tip:</b> Never click unknown links or share OTP with anyone.
@@ -97,9 +156,79 @@
 
 <script>
 
-function analyzeMessage() {
+// Check browser support
+const synth = window.speechSynthesis;
+const supportsSpeech = 'speechSynthesis' in window;
 
+function showStatus(message, type) {
+    const statusEl = document.getElementById('status');
+    statusEl.innerText = message;
+    statusEl.className = 'status ' + type;
+    setTimeout(() => {
+        statusEl.className = 'status';
+    }, 3000);
+}
+
+function speak(message) {
+    if (!supportsSpeech) {
+        console.warn("Speech Synthesis not supported");
+        showStatus("⚠️ Voice not supported on this browser", "error");
+        return;
+    }
+
+    // Cancel any ongoing speech
+    synth.cancel();
+
+    try {
+        const utterance = new SpeechSynthesisUtterance(message);
+        utterance.rate = 1;
+        utterance.pitch = 1;
+        utterance.volume = 1;
+        
+        // Get available voices
+        const voices = synth.getVoices();
+        if (voices.length > 0) {
+            // Try to find English voice
+            const englishVoice = voices.find(voice => voice.lang.startsWith('en')) || voices[0];
+            utterance.voice = englishVoice;
+        }
+
+        utterance.onstart = () => {
+            document.querySelector('.voice-indicator')?.classList.add('active');
+        };
+
+        utterance.onend = () => {
+            document.querySelector('.voice-indicator')?.classList.remove('active');
+        };
+
+        utterance.onerror = (event) => {
+            console.error('Speech synthesis error:', event);
+            showStatus("❌ Voice playback failed", "error");
+        };
+
+        synth.speak(utterance);
+    } catch (error) {
+        console.error("Error in speak function:", error);
+        showStatus("❌ Error with voice: " + error.message, "error");
+    }
+}
+
+function stopSpeech() {
+    if (synth) {
+        synth.cancel();
+        document.querySelector('.voice-indicator')?.classList.remove('active');
+        showStatus("✓ Voice stopped", "success");
+    }
+}
+
+function analyzeMessage() {
     let text = document.getElementById("sms").value.toLowerCase();
+
+    if (!text.trim()) {
+        document.getElementById("result").innerText = "⚠️ Please enter an SMS to analyze";
+        showStatus("❌ Text area is empty", "error");
+        return;
+    }
 
     let score = 0;
     let triggers = [];
@@ -156,48 +285,48 @@ function analyzeMessage() {
 
     // Check suspicious links
     badLinks.forEach(link => {
-        if(text.includes(link)) {
+        if (text.includes(link)) {
             score += 40;
             triggers.push(link);
-            reasons.push("Contains a suspicious link or URL pattern");
+            reasons.push("Contains suspicious link: " + link);
         }
     });
 
     // Check scam keywords
     Object.keys(scamPatterns).forEach(word => {
-        if(text.includes(word)) {
+        if (text.includes(word)) {
             score += scamPatterns[word];
             triggers.push(word);
-            reasons.push(`Detected scam keyword: "${word}"`);
+            reasons.push("Contains scam keyword: " + word);
         }
     });
 
     // Detect scam category
     Object.keys(scamCategories).forEach(word => {
-        if(text.includes(word)) {
+        if (text.includes(word)) {
             category = scamCategories[word];
         }
     });
 
     // Detect social engineering behaviour
-    if(text.includes("share") && (text.includes("code") || text.includes("otp"))) {
+    if (text.includes("share") && (text.includes("code") || text.includes("otp"))) {
         score += 35;
         reasons.push("Requests sensitive security information");
     }
 
-    if(text.includes("money") || text.includes("payment")) {
+    if (text.includes("money") || text.includes("payment")) {
         score += 20;
         reasons.push("Involves possible financial request");
     }
 
-    if(text.includes("urgent") || text.includes("immediately")) {
+    if (text.includes("urgent") || text.includes("immediately")) {
         score += 15;
         reasons.push("Uses pressure or urgency tactics");
     }
 
-    if(text.includes("click")) {
+    if (text.includes("click")) {
         score += 15;
-        reasons.push("Encourages user to take immediate action");
+        reasons.push("Encourages immediate action");
     }
 
     // Maximum score is 100
@@ -205,44 +334,47 @@ function analyzeMessage() {
 
     let result = "";
     let recommendation = "";
+    let voiceMessage = "";
 
-    if(score >= 60) {
+    if (score >= 60) {
         result = "❌ LIKELY SCAM";
         recommendation = "Do not click links, send money, or share OTP, passwords, BVN, or personal information.";
-        speak("Warning. This message appears to be a scam.");
+        voiceMessage = "Warning! This message appears to be a scam. Do not click any links or share personal information.";
     }
-    else if(score >= 30) {
+    else if (score >= 30) {
         result = "⚠️ SUSPICIOUS MESSAGE";
         recommendation = "Verify the sender and confirm information before taking any action.";
+        voiceMessage = "This message looks suspicious. Please verify the sender before taking any action.";
     }
     else {
         result = "✅ SAFE MESSAGE";
         recommendation = "No major threat detected. Continue practising safe online behaviour.";
+        voiceMessage = "This message appears to be safe.";
     }
 
-    let report = `${result}
-
-Risk Score: ${score}%
-
-Detected Scam Type: ${category}
-
-Detected Indicators: ${[...new Set(triggers)].join(", ") || "None"}
-
-Why This Result:
-${reasons.length > 0 ? reasons.join("\n") : "No suspicious behaviour detected"}
-
-Safety Recommendation: ${recommendation}
-
-Powered by ScamShield.ng`;
+    let report = result + "\n\n";
+    report += "Risk Score: " + score + "%\n\n";
+    report += "Detected Scam Type: " + category + "\n\n";
+    report += "Detected Indicators: " + ([...new Set(triggers)].length > 0 ? [...new Set(triggers)].join(", ") : "None") + "\n\n";
+    report += "Why This Result:\n";
+    report += (reasons.length > 0 ? reasons.join("\n") : "No suspicious behaviour detected") + "\n\n";
+    report += "Safety Recommendation:\n" + recommendation + "\n\n";
+    report += "Powered by ScamShield.ng";
 
     document.getElementById("result").innerText = report;
+    
+    // Trigger voice if high risk
+    if (score >= 60) {
+        showStatus("🔊 Playing warning...", "success");
+        speak(voiceMessage);
+    }
 }
 
-function speak(message) {
-    let speech = new SpeechSynthesisUtterance(message);
-    speech.rate = 1;
-    speech.pitch = 1;
-    window.speechSynthesis.speak(speech);
+// Load voices on page load
+if (supportsSpeech) {
+    synth.onvoiceschanged = () => {
+        synth.getVoices();
+    };
 }
 
 </script>
