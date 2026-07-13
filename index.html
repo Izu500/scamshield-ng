@@ -84,7 +84,7 @@
     <p>Paste an SMS below to analyze whether it looks safe, suspicious, or likely to be a scam.</p>
 
     <textarea id="sms" placeholder="Paste SMS here..."></textarea>
-    <button onclick="checkSMS()">Analyze</button>
+    <button onclick="analyzeMessage()">Analyze</button>
 
     <h3 id="result"></h3>
     <p id="details"></p>
@@ -98,7 +98,7 @@
 
 function analyzeMessage() {
 
-    let text = document.getElementById("message").value.toLowerCase();
+    let text = document.getElementById("sms").value.toLowerCase();
 
     let score = 0;
     let triggers = [];
@@ -328,7 +328,7 @@ else {
 
 
 // Text to speech function
-[7/13/2026 3:59 PM] Belonwu Izuchukwu: function speak(message) {
+function speak(message) {
 
     let speech = new SpeechSynthesisUtterance(message);
 
