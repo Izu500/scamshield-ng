@@ -73,6 +73,11 @@
       background: #555;
     }
 
+    button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+
     #result {
       margin-top: 20px;
       font-size: 18px;
@@ -87,10 +92,11 @@
 
     .status {
       margin-top: 10px;
-      padding: 10px;
+      padding: 10px 15px;
       border-radius: 5px;
       font-size: 14px;
       display: none;
+      font-weight: bold;
     }
 
     .status.success {
@@ -105,6 +111,12 @@
       display: block;
     }
 
+    .status.info {
+      background: #d1ecf1;
+      color: #0c5460;
+      display: block;
+    }
+
     .tip {
       margin-top: 20px;
       padding: 12px;
@@ -113,17 +125,25 @@
       border-radius: 8px;
     }
 
-    .voice-indicator {
+    .voice-info {
+      margin-top: 10px;
+      padding: 10px;
+      background: #f0f0f0;
+      border-radius: 5px;
+      font-size: 12px;
+      color: #666;
+    }
+
+    .voice-status {
       display: inline-block;
-      width: 12px;
-      height: 12px;
+      width: 10px;
+      height: 10px;
       background: #999;
       border-radius: 50%;
       margin-right: 5px;
-      animation: none;
     }
 
-    .voice-indicator.active {
+    .voice-status.active {
       background: #0b7a3b;
       animation: pulse 1s infinite;
     }
@@ -143,10 +163,12 @@
     
     <div class="button-group">
       <button onclick="analyzeMessage()">Analyze</button>
+      <button class="secondary" onclick="testVoice()">Test Voice</button>
       <button class="secondary" onclick="stopSpeech()">Stop Voice</button>
     </div>
 
     <div id="status" class="status"></div>
+    <div id="voiceInfo" class="voice-info"></div>
     <div id="result"></div>
 
     <div class="tip">
@@ -156,77 +178,116 @@
 
 <script>
 
-// Check browser support
-const synth = window.speechSynthesis;
-const supportsSpeech = 'speechSynthesis' in window;
+// Global speech variables
+let isSpeaking = false;
+let supportsSpeech = 'speechSynthesis' in window;
 
-function showStatus(message, type) {
+// Show status messages
+function showStatus(message, type = 'info', duration = 4000) {
     const statusEl = document.getElementById('status');
     statusEl.innerText = message;
     statusEl.className = 'status ' + type;
-    setTimeout(() => {
-        statusEl.className = 'status';
-    }, 3000);
+    
+    if (duration > 0) {
+        setTimeout(() => {
+            statusEl.className = 'status';
+        }, duration);
+    }
 }
 
-function speak(message) {
+// Update voice info
+function updateVoiceInfo(message) {
+    const voiceInfo = document.getElementById('voiceInfo');
+    voiceInfo.innerHTML = '<span class="voice-status"></span>' + message;
+}
+
+// Stop any ongoing speech
+function stopSpeech() {
+    if (supportsSpeech && window.speechSynthesis) {
+        window.speechSynthesis.cancel();
+        isSpeaking = false;
+        document.querySelector('.voice-status')?.classList.remove('active');
+        updateVoiceInfo('Voice stopped');
+        showStatus('✓ Voice stopped', 'success', 2000);
+    }
+}
+
+// Test voice function
+function testVoice() {
+    console.log("Testing voice...");
+    console.log("Speech Synthesis supported:", supportsSpeech);
+    
     if (!supportsSpeech) {
-        console.warn("Speech Synthesis not supported");
-        showStatus("⚠️ Voice not supported on this browser", "error");
+        showStatus("❌ Speech Synthesis not supported on this browser", 'error');
+        updateVoiceInfo('Speech Synthesis: NOT SUPPORTED');
         return;
     }
 
-    // Cancel any ongoing speech
-    synth.cancel();
+    const synth = window.speechSynthesis;
+    console.log("Synth object:", synth);
+    console.log("Synth paused:", synth.paused);
+    
+    const voices = synth.getVoices();
+    console.log("Available voices:", voices.length);
+    
+    if (voices.length === 0) {
+        updateVoiceInfo('No voices available - waiting for voices to load...');
+        console.log("No voices loaded yet, waiting...");
+        return;
+    }
 
+    updateVoiceInfo('🔊 Speaking: Test message...');
+    showStatus('🔊 Playing test voice...', 'info', 0);
+    
     try {
-        const utterance = new SpeechSynthesisUtterance(message);
+        const utterance = new SpeechSynthesisUtterance("This is a test. The voice system is working.");
         utterance.rate = 1;
         utterance.pitch = 1;
         utterance.volume = 1;
         
-        // Get available voices
-        const voices = synth.getVoices();
+        // Select voice
         if (voices.length > 0) {
-            // Try to find English voice
-            const englishVoice = voices.find(voice => voice.lang.startsWith('en')) || voices[0];
-            utterance.voice = englishVoice;
+            utterance.voice = voices[0];
+            console.log("Using voice:", voices[0].name);
         }
 
         utterance.onstart = () => {
-            document.querySelector('.voice-indicator')?.classList.add('active');
+            console.log("Speech started");
+            isSpeaking = true;
+            document.querySelector('.voice-status')?.classList.add('active');
         };
 
         utterance.onend = () => {
-            document.querySelector('.voice-indicator')?.classList.remove('active');
+            console.log("Speech ended");
+            isSpeaking = false;
+            document.querySelector('.voice-status')?.classList.remove('active');
+            updateVoiceInfo('✓ Test voice completed');
+            showStatus('✓ Test voice completed', 'success', 2000);
         };
 
         utterance.onerror = (event) => {
-            console.error('Speech synthesis error:', event);
-            showStatus("❌ Voice playback failed", "error");
+            console.error("Speech error:", event.error);
+            isSpeaking = false;
+            document.querySelector('.voice-status')?.classList.remove('active');
+            showStatus("❌ Voice error: " + event.error, 'error');
+            updateVoiceInfo('❌ Error: ' + event.error);
         };
 
         synth.speak(utterance);
+        console.log("Utterance queued");
     } catch (error) {
-        console.error("Error in speak function:", error);
-        showStatus("❌ Error with voice: " + error.message, "error");
+        console.error("Error:", error);
+        showStatus("❌ Error: " + error.message, 'error');
     }
 }
 
-function stopSpeech() {
-    if (synth) {
-        synth.cancel();
-        document.querySelector('.voice-indicator')?.classList.remove('active');
-        showStatus("✓ Voice stopped", "success");
-    }
-}
-
+// Main analyze function
 function analyzeMessage() {
     let text = document.getElementById("sms").value.toLowerCase();
 
     if (!text.trim()) {
         document.getElementById("result").innerText = "⚠️ Please enter an SMS to analyze";
-        showStatus("❌ Text area is empty", "error");
+        showStatus("❌ Text area is empty", 'error');
         return;
     }
 
@@ -363,19 +424,107 @@ function analyzeMessage() {
 
     document.getElementById("result").innerText = report;
     
-    // Trigger voice if high risk
-    if (score >= 60) {
-        showStatus("🔊 Playing warning...", "success");
-        speak(voiceMessage);
+    // Trigger voice if high risk or any risk
+    if (score >= 30) {
+        speakWarning(voiceMessage);
     }
 }
 
-// Load voices on page load
-if (supportsSpeech) {
-    synth.onvoiceschanged = () => {
-        synth.getVoices();
-    };
+// Speak warning with proper handling
+function speakWarning(message) {
+    if (!supportsSpeech) {
+        showStatus("⚠️ Voice not supported on this browser", 'error');
+        updateVoiceInfo('Speech Synthesis: NOT SUPPORTED');
+        return;
+    }
+
+    const synth = window.speechSynthesis;
+    
+    // Get voices
+    let voices = synth.getVoices();
+    
+    if (voices.length === 0) {
+        console.log("Voices not loaded, attempting to load...");
+        updateVoiceInfo('Waiting for voices to load...');
+        // Try again after a short delay
+        setTimeout(() => speakWarning(message), 500);
+        return;
+    }
+
+    // Cancel previous speech
+    synth.cancel();
+
+    try {
+        const utterance = new SpeechSynthesisUtterance(message);
+        utterance.rate = 1;
+        utterance.pitch = 1;
+        utterance.volume = 1;
+        utterance.lang = 'en-US';
+        
+        // Try to use English voice
+        const englishVoice = voices.find(v => v.lang.startsWith('en'));
+        if (englishVoice) {
+            utterance.voice = englishVoice;
+        } else {
+            utterance.voice = voices[0];
+        }
+
+        utterance.onstart = () => {
+            console.log("Speech started");
+            isSpeaking = true;
+            document.querySelector('.voice-status')?.classList.add('active');
+            updateVoiceInfo('🔊 Speaking...');
+            showStatus('🔊 Warning voice playing...', 'info', 0);
+        };
+
+        utterance.onend = () => {
+            console.log("Speech ended");
+            isSpeaking = false;
+            document.querySelector('.voice-status')?.classList.remove('active');
+            updateVoiceInfo('✓ Voice complete');
+            showStatus('✓ Voice completed', 'success', 2000);
+        };
+
+        utterance.onerror = (event) => {
+            console.error("Speech error:", event.error);
+            isSpeaking = false;
+            document.querySelector('.voice-status')?.classList.remove('active');
+            updateVoiceInfo('❌ Error: ' + event.error);
+            showStatus("❌ Voice error: " + event.error, 'error');
+        };
+
+        console.log("Speaking:", message);
+        synth.speak(utterance);
+    } catch (error) {
+        console.error("Error in speakWarning:", error);
+        showStatus("❌ Error: " + error.message, 'error');
+        updateVoiceInfo('❌ Error: ' + error.message);
+    }
 }
+
+// Initialize voices on page load
+window.addEventListener('load', () => {
+    if (supportsSpeech) {
+        const synth = window.speechSynthesis;
+        const voices = synth.getVoices();
+        console.log("Page loaded - Available voices:", voices.length);
+        
+        if (voices.length > 0) {
+            updateVoiceInfo('✓ Speech ready (' + voices.length + ' voices)');
+        } else {
+            updateVoiceInfo('⏳ Loading voices...');
+        }
+
+        // Listen for voices change
+        synth.onvoiceschanged = () => {
+            const voicesLoaded = synth.getVoices();
+            console.log("Voices loaded:", voicesLoaded.length);
+            updateVoiceInfo('✓ Speech ready (' + voicesLoaded.length + ' voices)');
+        };
+    } else {
+        updateVoiceInfo('❌ Speech Synthesis not supported');
+    }
+});
 
 </script>
 </body>
