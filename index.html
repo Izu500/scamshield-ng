@@ -307,40 +307,27 @@ document.getElementById("result").innerText = report;
 
 // Voice warning
 
-if(score >= 60) {
+function analyzeMessage() {
 
-    speak("Warning. This message is likely a scam. Do not share your personal information.");
+   ...
 
-}
+   if(score >= 60){
+      speak("Warning...");
+   }
 
-else if(score >= 30) {
-
-    speak("Warning. This message looks suspicious. Please verify before responding.");
-
-}
-
-else {
-
-    speak("This message appears safe.");
-
-}
+} // Close analyzeMessage()
 
 
-
-// Text to speech function
-function speak(sms) {
+function speak(sms){
 
     let speech = new SpeechSynthesisUtterance(sms);
 
     speech.rate = 1;
-
     speech.pitch = 1;
 
     window.speechSynthesis.speak(speech);
 
 }
-
-
 </script>
 </body>
 </html>
