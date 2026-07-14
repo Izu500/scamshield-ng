@@ -1,372 +1,1595 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ScamShield NG</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f4f7f8;
-      margin: 0;
-      padding: 30px 15px;
-      color: #222;
-    }
 
-    .container {
-      max-width: 700px;
-      margin: auto;
-      background: #fff;
-      padding: 25px;
-      border-radius: 14px;
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    h2 {
-      margin-top: 0;
-      color: #0b7a3b;
-    }
+<title>ScamShield.ng | Nigeria Cyber Protection</title>
 
-    p {
-      line-height: 1.5;
-    }
+<style>
 
-    textarea {
-      width: 100%;
-      min-height: 140px;
-      padding: 12px;
-      font-size: 16px;
-      border: 1px solid #ccc;
-      border-radius: 10px;
-      resize: vertical;
-      box-sizing: border-box;
-    }
+*{
+box-sizing:border-box;
+font-family:Arial, sans-serif;
+}
 
-    .button-group {
-      display: flex;
-      gap: 10px;
-      margin-top: 15px;
-    }
+body{
 
-    button {
-      padding: 12px 22px;
-      font-size: 16px;
-      background: #0b7a3b;
-      color: white;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      flex: 1;
-    }
+margin:0;
+padding:20px;
+background:#06101f;
+color:white;
 
-    button:hover {
-      background: #095f2e;
-    }
+}
 
-    button.secondary {
-      background: #666;
-      flex: 0.5;
-    }
 
-    button.secondary:hover {
-      background: #555;
-    }
+.container{
 
-    #result {
-      margin-top: 20px;
-      font-size: 18px;
-      font-weight: bold;
-      white-space: pre-wrap;
-      line-height: 1.6;
-      padding: 15px;
-      background: #f9f9f9;
-      border-radius: 8px;
-      border-left: 4px solid #0b7a3b;
-    }
+max-width:850px;
+margin:auto;
+background:#0d1728;
+padding:25px;
+border-radius:20px;
+box-shadow:0 0 25px rgba(0,255,150,0.15);
 
-    #details {
-      margin-top: 10px;
-      font-size: 16px;
-      color: #444;
-      white-space: pre-wrap;
-    }
+}
 
-    .tip {
-      margin-top: 20px;
-      padding: 12px;
-      background: #f1fff5;
-      border-left: 4px solid #0b7a3b;
-      border-radius: 8px;
-    }
 
-    .status {
-      margin-top: 10px;
-      padding: 10px;
-      border-radius: 5px;
-      font-size: 14px;
-      font-weight: bold;
-    }
+.logo{
 
-    .status.speaking {
-      background: #d4edda;
-      color: #155724;
-    }
+font-size:32px;
+font-weight:bold;
+color:#4ade80;
 
-    .status.error {
-      background: #f8d7da;
-      color: #721c24;
-    }
-  </style>
+}
+
+
+.subtitle{
+
+color:#94a3b8;
+margin-bottom:25px;
+
+}
+
+
+
+.card{
+
+background:#111d33;
+padding:20px;
+margin-top:20px;
+border-radius:15px;
+border:1px solid #1f334d;
+
+}
+
+
+
+h2{
+
+color:#4ade80;
+
+}
+
+
+
+textarea,input,select{
+
+width:100%;
+padding:14px;
+margin-top:10px;
+border-radius:10px;
+border:none;
+font-size:16px;
+
+}
+
+
+textarea{
+
+height:150px;
+resize:none;
+
+}
+
+
+button{
+
+background:#16a34a;
+color:white;
+border:none;
+padding:14px 20px;
+border-radius:10px;
+margin-top:15px;
+cursor:pointer;
+font-size:16px;
+font-weight:bold;
+
+}
+
+
+button:hover{
+
+background:#15803d;
+
+}
+
+
+
+.secondary{
+
+background:#334155;
+
+}
+
+
+.danger{
+
+background:#dc2626;
+
+}
+
+
+
+.result{
+
+margin-top:20px;
+padding:20px;
+background:#020617;
+border-radius:12px;
+font-size:18px;
+
+}
+
+
+
+.tip{
+
+background:#052e16;
+padding:15px;
+border-left:5px solid #22c55e;
+margin-top:20px;
+
+}
+
+
+
+.grid{
+
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:15px;
+
+}
+
+
+
+.stat{
+
+background:#020617;
+padding:20px;
+border-radius:12px;
+text-align:center;
+
+}
+
+
+.stat h3{
+
+color:#4ade80;
+font-size:30px;
+
+}
+
+
+
+.alert{
+
+padding:20px;
+border-radius:12px;
+margin-top:15px;
+font-size:20px;
+font-weight:bold;
+
+}
+
+
+.scam{
+
+background:#450a0a;
+color:#f87171;
+
+}
+
+
+.safe{
+
+background:#052e16;
+color:#4ade80;
+
+}
+
+
+.warning{
+
+background:#422006;
+color:#facc15;
+
+}
+
+
+
+footer{
+
+text-align:center;
+margin-top:30px;
+color:#94a3b8;
+
+}
+
+
+</style>
+
 </head>
+
+
 <body>
-  <div class="container">
-    <h2>ScamShield NG 🇳🇬</h2>
-    <p>Paste an SMS below to analyze whether it looks safe, suspicious, or likely to be a scam.</p>
 
-    <textarea id="sms" placeholder="Paste SMS here..."></textarea>
-    
-    <div class="button-group">
-      <button onclick="checkSMS()">Analyze</button>
-      <button class="secondary" onclick="stopVoice()">Stop</button>
-    </div>
 
-    <div id="status"></div>
-    <h3 id="result"></h3>
-    <p id="details"></p>
+<div class="container">
 
-    <div class="tip">
-      <b>Tip:</b> Never click unknown links or share OTP with anyone.
-    </div>
-  </div>
 
-  <script>
-    function speak(text) {
-      try {
-        window.speechSynthesis.cancel();
-        let speech = new SpeechSynthesisUtterance(text);
-        speech.lang = "en-US";
-        speech.rate = 1;
-        speech.pitch = 1;
-        speech.volume = 1;
-        
-        speech.onstart = function() {
-          console.log("Speaking:", text);
-          showStatus("🔊 Speaking...", "speaking");
-        };
-        
-        speech.onend = function() {
-          console.log("Finished speaking");
-          hideStatus();
-        };
-        
-        speech.onerror = function(event) {
-          console.error("Speech error:", event.error);
-          showStatus("❌ Voice error", "error");
-        };
-        
-        window.speechSynthesis.speak(speech);
-      } catch (error) {
-        console.error("Error in speak function:", error);
-        showStatus("❌ Error: " + error.message, "error");
-      }
-    }
+<div class="logo">
+🛡️ ScamShield.ng 🇳🇬
+</div>
 
-    function stopVoice() {
-      window.speechSynthesis.cancel();
-      hideStatus();
-    }
 
-    function showStatus(message, className) {
-      const status = document.getElementById("status");
-      status.innerText = message;
-      status.className = "status " + className;
-    }
+<p class="subtitle">
+Nigeria Cyber Protection Platform
+<br>
+Detect scams. Protect families. Improve digital safety.
+</p>
 
-    function hideStatus() {
-      const status = document.getElementById("status");
-      setTimeout(() => {
-        status.innerText = "";
-        status.className = "status";
-      }, 1500);
-    }
 
-    function containsLink(text) {
-      return text.includes("http") || text.includes("www");
-    }
 
-    function checkSMS() {
-      let text = document.getElementById("sms").value.toLowerCase().trim();
+<!-- SCAM ANALYZER -->
 
-      if (!text) {
-        document.getElementById("result").innerText = "Please paste a message first.";
-        speak("Please paste a message first.");
-        return;
-      }
+<div class="card">
 
-      // High risk words - Security & Account related (20 points each)
-      let highRiskWords = [
-        "otp",
-        "pin",
-        "password",
-        "verify",
-        "verification",
-        "account blocked",
-        "account suspended",
-        "account locked",
-        "card details",
-        "bvn",
-        "nin",
-        "security alert",
-        "unusual activity",
-        "login",
-        "sign in",
-        "reset password",
-        "confirm identity",
-        "authenticate",
-        "mfa",
-        "two factor"
-      ];
 
-      // Medium risk words - Urgency & Financial (10 points each)
-      let mediumRiskWords = [
-        "urgent",
-        "immediately",
-        "action required",
-        "click",
-        "click here",
-        "tap here",
-        "dear customer",
-        "limited time",
-        "offer expires",
-        "claim",
-        "reward",
-        "prize",
-        "winner",
-        "congratulations",
-        "payment failed",
-        "failed transaction",
-        "refund",
-        "cashback",
-        "loan approved",
-        "reactivate",
-        "delivery failed",
-        "parcel",
-        "customs fee",
-        "investment",
-        "double your money",
-        "guaranteed return",
-        "free money",
-        "free bonus",
-        "wire transfer",
-        "send money",
-        "transfer funds",
-        "bank details",
-        "atm",
-        "airtime",
-        "recharge"
-      ];
+<h2>
+🔍 Scam Analyzer
+</h2>
 
-      // Very suspicious shortened URLs
-      let badLinks = [
-        "bit.ly",
-        "tinyurl",
-        "goo.gl",
-        "rb.gy",
-        "t.co",
-        "pay-now",
-        "secure-login",
-        "update-kyc",
-        "freebonus",
-        "verify-account",
-        "confirm-payment",
-        "reset-pin"
-      ];
 
-      let score = 0;
-      let triggers = [];
-      let reasons = [];
+<p>
+Paste any SMS, WhatsApp message, email or suspicious text below.
+</p>
 
-      // Check high risk words
-      highRiskWords.forEach(word => {
-        if (text.includes(word)) {
-          score += 20;
-          triggers.push(word);
-          reasons.push("🔴 Sensitive keyword detected: " + word);
-        }
-      });
 
-      // Check medium risk words
-      mediumRiskWords.forEach(word => {
-        if (text.includes(word)) {
-          score += 10;
-          triggers.push(word);
-          reasons.push("🟡 Risk keyword detected: " + word);
-        }
-      });
+<textarea id="sms"
+placeholder="Paste suspicious message here..."></textarea>
 
-      // Check for generic links
-      if (containsLink(text)) {
-        score += 30;
-        triggers.push("link detected");
-        reasons.push("🔴 Suspicious link detected");
-      }
 
-      // Check for specific bad links
-      badLinks.forEach(link => {
-        if (text.includes(link)) {
-          score += 40;
-          triggers.push(link);
-          reasons.push("🔴 Known malicious link: " + link);
-        }
-      });
+<button onclick="checkSMS()">
+Analyze Message
+</button>
 
-      score = Math.min(score, 100);
 
-      let result = "";
-      let voiceMessage = "";
-      let recommendation = "";
+<button class="secondary"
+onclick="readResult()">
 
-      if (score >= 70) {
-        result = "❌ SCAM MESSAGE (" + score + "% risk)";
-        voiceMessage = "Warning! This is a scam message. Do not click links, reply, or share personal information.";
-        recommendation = "❌ Do NOT click any links, reply to this message, or provide personal/financial information.";
-      } else if (score >= 40) {
-        result = "⚠️ SUSPICIOUS MESSAGE (" + score + "% risk)";
-        voiceMessage = "Warning. This message looks suspicious. Be careful.";
-        recommendation = "⚠️ Verify the sender independently. Do not click links or provide personal information.";
-      } else if (score >= 20) {
-        result = "🟡 CAUTION MESSAGE (" + score + "% risk)";
-        voiceMessage = "This message needs attention.";
-        recommendation = "🟡 Low risk but stay alert. Verify sender before responding.";
-      } else {
-        result = "✅ SAFE MESSAGE (" + score + "% risk)";
-        voiceMessage = "This message appears to be safe.";
-        recommendation = "✅ No major threats detected. Proceed normally.";
-      }
+🔊 Read Result
 
-      let details = "\n📊 ANALYSIS RESULTS:\n\n";
-      details += "Risk Score: " + score + "/100\n";
-      details += "Detected Threats: " + (triggers.length > 0 ? [...new Set(triggers)].join(", ") : "None") + "\n\n";
-      
-      if (reasons.length > 0) {
-        details += "REASONS:\n";
-        reasons.forEach(reason => {
-          details += "• " + reason + "\n";
-        });
-      } else {
-        details += "REASONS:\n• No suspicious patterns found\n";
-      }
-      
-      details += "\nRECOMMENDATION:\n" + recommendation;
+</button>
 
-      document.getElementById("result").innerText = result;
-      document.getElementById("details").innerText = details;
 
-      // Speak warning for risky messages
-      if (score >= 40) {
-        speak(voiceMessage);
-      }
-    }
-  </script>
+<div id="result" class="result">
+
+Waiting for analysis...
+
+</div>
+
+
+</div>
+
+
+
+
+
+<!-- GUARDIAN MODE -->
+
+
+<div class="card">
+
+
+<h2>
+👨‍👩‍👧 Family Guardian Protection
+</h2>
+
+
+<p>
+Protect elderly and vulnerable users by adding a trusted contact.
+</p>
+
+
+<input id="guardianName"
+placeholder="Guardian Name">
+
+
+<input id="guardianPhone"
+placeholder="Phone Number">
+
+
+<input id="guardianRelation"
+placeholder="Relationship (Son, Daughter etc.)">
+
+
+<button onclick="saveGuardian()">
+
+Save Guardian
+
+</button>
+
+
+<p id="guardianStatus"></p>
+
+
+</div>
+
+
+
+
+
+<!-- REPORT SYSTEM -->
+
+
+<div class="card">
+
+
+<h2>
+🚨 Report Scam
+</h2>
+
+
+<p>
+Help improve cybersecurity awareness by reporting suspicious messages.
+</p>
+
+
+<select id="platform">
+
+<option>WhatsApp</option>
+<option>SMS</option>
+<option>Email</option>
+<option>Facebook</option>
+<option>Telegram</option>
+
+</select>
+
+
+
+<select id="category">
+
+<option>OTP Scam</option>
+<option>Fake Giveaway</option>
+<option>Banking Fraud</option>
+<option>Investment Scam</option>
+<option>Loan Scam</option>
+
+</select>
+
+
+
+<button onclick="reportScam()">
+
+Submit Report
+
+</button>
+
+
+<p id="reportStatus"></p>
+
+
+</div>
+
+
+
+
+
+<!-- ACCESSIBILITY -->
+
+
+<div class="card">
+
+
+<h2>
+♿ Accessibility Protection
+</h2>
+
+
+<p>
+Designed for blind and deaf users.
+</p>
+
+
+<button onclick="toggleAccessibility()">
+
+Enable Visual Alert Mode
+
+</button>
+
+
+</div>
+
+
+
+
+
+
+<!-- EDUCATION -->
+
+
+<div class="card">
+
+
+<h2>
+📚 Nigerian Scam Education
+</h2>
+
+
+<div class="grid">
+
+
+<div class="stat">
+OTP Scam
+<br>
+Never share verification codes.
+</div>
+
+
+<div class="stat">
+BVN Scam
+<br>
+Banks don't request BVN through messages.
+</div>
+
+
+<div class="stat">
+Fake Giveaway
+<br>
+Winning messages requesting payment are suspicious.
+</div>
+
+
+<div class="stat">
+WhatsApp Hack
+<br>
+Never share login codes.
+</div>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+<!-- STATISTICS -->
+
+
+<div class="card">
+
+
+<h2>
+📊 ScamShield Statistics
+</h2>
+
+
+<div class="grid">
+
+
+<div class="stat">
+
+<h3 id="checked">
+0
+</h3>
+
+Messages Checked
+
+</div>
+
+
+
+<div class="stat">
+
+<h3 id="detected">
+0
+</h3>
+
+Threats Detected
+
+</div>
+
+
+
+<div class="stat">
+
+<h3>
+Nigeria
+</h3>
+
+Protection Region
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+<div class="tip">
+
+<b>Safety Tip:</b>
+Never click unknown links or share OTP, passwords, BVN, or banking information.
+
+</div>
+
+
+
+<footer>
+
+ScamShield.ng © 2026
+<br>
+Building a safer digital Nigeria
+
+</footer>
+
+
+
+</div>
+
+<script>
+
+
+// ================================
+// GLOBAL DATA STORAGE
+// ================================
+
+
+let totalChecked =
+Number(localStorage.getItem("checked")) || 0;
+
+
+let totalDetected =
+Number(localStorage.getItem("detected")) || 0;
+
+
+
+// ================================
+// VOICE SECURITY ALERT
+// ================================
+
+
+function speak(message){
+
+
+window.speechSynthesis.cancel();
+
+
+let speech =
+new SpeechSynthesisUtterance(message);
+
+
+speech.lang="en-US";
+
+speech.rate=1;
+
+speech.pitch=1;
+
+
+window.speechSynthesis.speak(speech);
+
+
+}
+
+
+
+
+function readResult(){
+
+
+let result =
+document.getElementById("result").innerText;
+
+
+if(result.trim() !== ""){
+
+speak(result);
+
+}
+
+
+}
+
+
+
+
+
+
+// ================================
+// SCAM ANALYSIS ENGINE
+// ================================
+
+
+function checkSMS(){
+
+
+let text =
+document.getElementById("sms").value.toLowerCase();
+
+
+
+if(text.trim()==""){
+
+
+document.getElementById("result").innerHTML =
+
+"⚠️ Please enter a message to analyse.";
+
+return;
+
+
+}
+
+
+
+let score = 0;
+
+
+let indicators=[];
+
+
+let reasons=[];
+
+
+let category="General Suspicious Message";
+
+
+
+
+// ================================
+// SCAM KEYWORD DATABASE
+// ================================
+
+
+let patterns={
+
+
+"otp":35,
+
+"verification code":35,
+
+"password":30,
+
+"pin":30,
+
+"bvn":30,
+
+"account blocked":25,
+
+"click link":25,
+
+"click":15,
+
+"urgent":15,
+
+"immediately":15,
+
+"winner":25,
+
+"reward":20,
+
+"claim":20,
+
+"congratulations":20,
+
+"investment":30,
+
+"profit":25,
+
+"loan":20,
+
+"grant":20,
+
+"transfer money":30,
+
+"payment":20,
+
+"crypto":25,
+
+"airtime":15,
+
+"free":15
+
+
+};
+
+
+
+
+
+Object.keys(patterns).forEach(word=>{
+
+
+if(text.includes(word)){
+
+
+score += patterns[word];
+
+
+indicators.push(word);
+
+
+}
+
+
+});
+
+
+
+
+
+
+
+// ================================
+// LINK DETECTION
+// ================================
+
+
+let riskyLinks=[
+
+"http://",
+
+"https://",
+
+"bit.ly",
+
+"tinyurl",
+
+".xyz",
+
+".top",
+
+".click"
+
+];
+
+
+
+riskyLinks.forEach(link=>{
+
+
+if(text.includes(link)){
+
+
+score +=40;
+
+
+indicators.push(link);
+
+
+reasons.push(
+"Contains a suspicious link that may lead to phishing."
+);
+
+
+}
+
+
+});
+
+
+
+
+
+
+// ================================
+// SCAM CLASSIFICATION
+// ================================
+
+
+
+if(
+
+text.includes("otp") ||
+
+text.includes("password") ||
+
+text.includes("bvn") ||
+
+text.includes("verification")
+
+){
+
+
+category =
+"Phishing / Account Takeover Scam";
+
+
+reasons.push(
+"Requests sensitive security information."
+);
+
+
+}
+
+
+
+else if(
+
+text.includes("investment") ||
+
+text.includes("profit") ||
+
+text.includes("crypto")
+
+){
+
+
+category =
+"Investment Fraud Scam";
+
+
+reasons.push(
+"Uses financial promises to attract victims."
+);
+
+
+}
+
+
+
+else if(
+
+text.includes("winner") ||
+
+text.includes("reward") ||
+
+text.includes("claim")
+
+){
+
+
+category =
+"Fake Giveaway / Lottery Scam";
+
+
+reasons.push(
+"Uses fake rewards to manipulate users."
+);
+
+
+}
+
+
+
+else if(
+
+text.includes("loan")
+
+){
+
+
+category =
+"Fake Loan Scam";
+
+
+reasons.push(
+"May involve fraudulent loan services."
+);
+
+
+}
+
+
+
+else if(
+
+text.includes("cbn") ||
+
+text.includes("grant") ||
+
+text.includes("nysc")
+
+){
+
+
+category =
+"Fake Government Programme Scam";
+
+
+reasons.push(
+"Uses fake government opportunities."
+);
+
+
+}
+
+
+
+
+
+// ================================
+// SOCIAL ENGINEERING DETECTION
+// ================================
+
+
+if(
+
+text.includes("urgent") ||
+
+text.includes("immediately")
+
+){
+
+
+score +=10;
+
+
+reasons.push(
+"Uses pressure and urgency tactics."
+);
+
+
+}
+
+
+
+
+if(
+
+text.includes("share") &&
+
+(
+
+text.includes("code") ||
+
+text.includes("otp")
+
+)
+
+){
+
+
+score +=25;
+
+
+reasons.push(
+"Requests confidential information."
+);
+
+
+}
+
+
+
+
+
+// Maximum score
+
+score=Math.min(score,100);
+
+
+
+
+
+let result="";
+
+let voice="";
+
+let recommendation="";
+
+
+
+
+
+if(score>=70){
+
+
+result =
+
+`
+<div class="alert scam">
+
+❌ HIGH RISK SCAM
+
+<br><br>
+
+Risk Score:
+${score}%
+
+</div>
+`;
+
+
+
+voice =
+"Warning. This is likely a scam message. Do not share your personal information.";
+
+
+
+recommendation =
+"Do not click links, send money, reply, or share OTP.";
+
+
+
+
+
+totalDetected++;
+
+
+
+}
+
+
+
+
+
+else if(score>=40){
+
+
+result=
+
+`
+<div class="alert warning">
+
+⚠️ SUSPICIOUS MESSAGE
+
+<br><br>
+
+Risk Score:
+${score}%
+
+</div>
+`;
+
+
+
+voice =
+"This message looks suspicious. Please verify before responding.";
+
+
+
+recommendation =
+"Confirm the sender before taking action.";
+
+
+
+totalDetected++;
+
+
+
+}
+
+
+
+
+else if(score>=20){
+
+
+result=
+
+`
+<div class="alert warning">
+
+🟡 CAUTION MESSAGE
+
+<br><br>
+
+Risk Score:
+${score}%
+
+</div>
+`;
+
+
+
+voice =
+"This message requires caution.";
+
+
+recommendation =
+"Stay alert and verify information.";
+
+
+
+}
+
+
+
+
+else{
+
+
+result=
+
+`
+<div class="alert safe">
+
+✅ SAFE MESSAGE
+
+<br><br>
+
+Risk Score:
+${score}%
+
+</div>
+`;
+
+
+
+voice =
+"This message appears safe.";
+
+
+
+recommendation =
+"No major threat detected.";
+
+}
+
+
+
+
+totalChecked++;
+
+
+
+localStorage.setItem(
+"checked",
+totalChecked
+);
+
+
+localStorage.setItem(
+"detected",
+totalDetected
+);
+
+
+
+
+
+document.getElementById("checked").innerText =
+totalChecked;
+
+
+document.getElementById("detected").innerText =
+totalDetected;
+
+
+
+
+
+document.getElementById("result").innerHTML =
+
+result +
+
+
+`
+
+<br>
+
+<b>Threat Category:</b>
+${category}
+
+
+<br><br>
+
+<b>Detected Indicators:</b>
+
+<br>
+
+${
+
+indicators.join(", ")
+
+|| "None"
+
+}
+
+
+<br><br>
+
+<b>Reasons:</b>
+
+<br>
+
+${
+
+reasons.join("<br>")
+
+|| "No suspicious patterns detected."
+
+}
+
+
+<br><br>
+
+<b>Recommendation:</b>
+
+<br>
+
+${recommendation}
+
+`;
+
+
+
+
+
+if(score>=40){
+
+speak(voice);
+
+}
+
+
+
+}
+
+
+
+
+
+// ================================
+// SCAM REPORTING SYSTEM
+// ================================
+
+
+function reportScam(){
+
+
+let platform =
+document.getElementById("platform").value;
+
+
+let category =
+document.getElementById("category").value;
+
+
+
+let message =
+document.getElementById("sms").value;
+
+
+
+if(message.trim()==""){
+
+
+document.getElementById("reportStatus").innerHTML =
+
+"⚠️ Please analyse or paste a scam message first.";
+
+
+return;
+
+
+}
+
+
+
+
+let reports =
+
+JSON.parse(
+
+localStorage.getItem("scamReports")
+
+)
+
+|| [];
+
+
+
+
+reports.push({
+
+message:message,
+
+platform:platform,
+
+category:category,
+
+date:new Date().toLocaleString()
+
+
+});
+
+
+
+
+
+localStorage.setItem(
+
+"scamReports",
+
+JSON.stringify(reports)
+
+);
+
+
+
+
+
+document.getElementById("reportStatus").innerHTML =
+
+"✅ Scam report submitted. Thank you for helping protect others.";
+
+
+
+}
+
+
+
+
+
+
+
+// ================================
+// FAMILY GUARDIAN MODE
+// ================================
+
+
+function saveGuardian(){
+
+
+
+let name =
+
+document.getElementById("guardianName").value;
+
+
+
+let phone =
+
+document.getElementById("guardianPhone").value;
+
+
+
+let relation =
+
+document.getElementById("guardianRelation").value;
+
+
+
+
+
+if(
+
+name=="" ||
+
+phone==""
+
+){
+
+
+document.getElementById("guardianStatus").innerHTML =
+
+"⚠️ Please enter guardian details.";
+
+
+return;
+
+
+}
+
+
+
+
+
+
+let guardian={
+
+
+name:name,
+
+phone:phone,
+
+relationship:relation,
+
+permission:true
+
+
+};
+
+
+
+
+localStorage.setItem(
+
+"guardian",
+
+JSON.stringify(guardian)
+
+);
+
+
+
+
+
+document.getElementById("guardianStatus").innerHTML =
+
+"✅ Guardian protection enabled.";
+
+
+
+
+
+}
+
+
+
+
+
+
+
+// ================================
+// GUARDIAN ALERT SYSTEM
+// ================================
+
+
+function notifyGuardian(){
+
+
+
+let guardian =
+
+JSON.parse(
+
+localStorage.getItem("guardian")
+
+);
+
+
+
+
+
+if(!guardian){
+
+
+alert(
+
+"No guardian contact saved."
+
+);
+
+
+return;
+
+
+}
+
+
+
+
+let message =
+
+`
+🚨 ScamShield Alert
+
+A high-risk scam message was detected.
+
+Category:
+Please check the user's device and provide assistance.
+
+Generated by ScamShield.ng
+`;
+
+
+
+
+
+// Opens WhatsApp with permission
+
+let whatsapp =
+
+"https://wa.me/" +
+
+guardian.phone +
+
+"?text=" +
+
+encodeURIComponent(message);
+
+
+
+
+
+window.open(
+
+whatsapp,
+
+"_blank"
+
+);
+
+
+
+}
+
+
+
+
+
+
+
+// ================================
+// ACCESSIBILITY MODE
+// ================================
+
+
+function toggleAccessibility(){
+
+
+
+document.body.style.fontSize="20px";
+
+document.body.style.background="#000";
+
+document.body.style.color="#fff";
+
+
+
+
+alert(
+
+"♿ Accessibility Mode Enabled. Text enlarged and contrast improved."
+
+);
+
+
+
+}
+
+
+
+
+
+
+
+// ================================
+// LOAD SAVED DATA
+// ================================
+
+
+document.getElementById("checked").innerText =
+
+totalChecked;
+
+
+
+document.getElementById("detected").innerText =
+
+totalDetected;
+
+
+
+
+</script>
+
+
 </body>
+
 </html>
