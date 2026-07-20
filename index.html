@@ -1,1595 +1,3591 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>ScamShield.ng | Nigeria Cyber Protection</title>
-
-<style>
-
-*{
-box-sizing:border-box;
-font-family:Arial, sans-serif;
-}
-
-body{
-
-margin:0;
-padding:20px;
-background:#06101f;
-color:white;
-
-}
-
-
-.container{
-
-max-width:850px;
-margin:auto;
-background:#0d1728;
-padding:25px;
-border-radius:20px;
-box-shadow:0 0 25px rgba(0,255,150,0.15);
-
-}
-
-
-.logo{
-
-font-size:32px;
-font-weight:bold;
-color:#4ade80;
-
-}
-
-
-.subtitle{
-
-color:#94a3b8;
-margin-bottom:25px;
-
-}
-
-
-
-.card{
-
-background:#111d33;
-padding:20px;
-margin-top:20px;
-border-radius:15px;
-border:1px solid #1f334d;
-
-}
-
-
-
-h2{
-
-color:#4ade80;
-
-}
-
-
-
-textarea,input,select{
-
-width:100%;
-padding:14px;
-margin-top:10px;
-border-radius:10px;
-border:none;
-font-size:16px;
-
-}
-
-
-textarea{
-
-height:150px;
-resize:none;
-
-}
-
-
-button{
-
-background:#16a34a;
-color:white;
-border:none;
-padding:14px 20px;
-border-radius:10px;
-margin-top:15px;
-cursor:pointer;
-font-size:16px;
-font-weight:bold;
-
-}
-
-
-button:hover{
-
-background:#15803d;
-
-}
-
-
-
-.secondary{
-
-background:#334155;
-
-}
-
-
-.danger{
-
-background:#dc2626;
-
-}
-
-
-
-.result{
-
-margin-top:20px;
-padding:20px;
-background:#020617;
-border-radius:12px;
-font-size:18px;
-
-}
-
-
-
-.tip{
-
-background:#052e16;
-padding:15px;
-border-left:5px solid #22c55e;
-margin-top:20px;
-
-}
-
-
-
-.grid{
-
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-gap:15px;
-
-}
-
-
-
-.stat{
-
-background:#020617;
-padding:20px;
-border-radius:12px;
-text-align:center;
-
-}
-
-
-.stat h3{
-
-color:#4ade80;
-font-size:30px;
-
-}
-
-
-
-.alert{
-
-padding:20px;
-border-radius:12px;
-margin-top:15px;
-font-size:20px;
-font-weight:bold;
-
-}
-
-
-.scam{
-
-background:#450a0a;
-color:#f87171;
-
-}
-
-
-.safe{
-
-background:#052e16;
-color:#4ade80;
-
-}
-
-
-.warning{
-
-background:#422006;
-color:#facc15;
-
-}
-
-
-
-footer{
-
-text-align:center;
-margin-top:30px;
-color:#94a3b8;
-
-}
-
-
-</style>
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta
+    name="description"
+    content="ScamShield.ng helps Nigerians detect suspicious messages, report scams and protect vulnerable users."
+  >
+
+  <title>ScamShield.ng | Nigeria Cyber Protection</title>
+
+  <style>
+    :root {
+      --background: #07111f;
+      --card: #0e1c2e;
+      --card-light: #13263d;
+      --text: #eef7ff;
+      --muted: #aab8c7;
+      --green: #22c55e;
+      --blue: #38bdf8;
+      --yellow: #facc15;
+      --orange: #fb923c;
+      --red: #ef4444;
+      --border: #29445f;
+      --input: #081522;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background:
+        radial-gradient(
+          circle at top right,
+          rgba(34, 197, 94, 0.15),
+          transparent 32%
+        ),
+        var(--background);
+
+      color: var(--text);
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.55;
+      min-height: 100vh;
+    }
+
+    body.large-text {
+      font-size: 1.18rem;
+    }
+
+    body.high-contrast {
+      --background: #000000;
+      --card: #000000;
+      --card-light: #111111;
+      --text: #ffffff;
+      --muted: #ffffff;
+      --green: #00ff66;
+      --blue: #00e5ff;
+      --yellow: #ffff00;
+      --orange: #ffb000;
+      --red: #ff3b30;
+      --border: #ffffff;
+      --input: #000000;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+    }
+
+    button:focus,
+    input:focus,
+    select:focus,
+    textarea:focus {
+      outline: 3px solid var(--blue);
+      outline-offset: 2px;
+    }
+
+    .container {
+      width: min(1100px, calc(100% - 24px));
+      margin: auto;
+      padding: 22px 0 40px;
+    }
+
+    .hero {
+      padding: 24px;
+      margin-bottom: 20px;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+
+      background:
+        linear-gradient(
+          135deg,
+          rgba(34, 197, 94, 0.14),
+          rgba(56, 189, 248, 0.08)
+        );
+
+      box-shadow: 0 14px 38px rgba(0, 0, 0, 0.3);
+    }
+
+    .brand {
+      margin: 0;
+      color: var(--green);
+      font-size: clamp(2rem, 5vw, 3rem);
+      line-height: 1.1;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      max-width: 760px;
+    }
+
+    .privacy-badge {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 8px 13px;
+      border: 1px solid rgba(34, 197, 94, 0.5);
+      border-radius: 999px;
+      background: rgba(34, 197, 94, 0.1);
+      font-weight: bold;
+    }
+
+    .main-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.55fr) minmax(280px, 0.8fr);
+      gap: 20px;
+      align-items: start;
+    }
+
+    .stack {
+      display: grid;
+      gap: 20px;
+    }
+
+    .card {
+      padding: 20px;
+      border: 1px solid var(--border);
+      border-radius: 17px;
+
+      background:
+        linear-gradient(
+          180deg,
+          var(--card),
+          var(--card-light)
+        );
+
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.28);
+    }
+
+    h2 {
+      margin-top: 0;
+      color: var(--green);
+    }
+
+    h3 {
+      margin-bottom: 8px;
+    }
+
+    .helper-text {
+      color: var(--muted);
+    }
+
+    label {
+      display: block;
+      margin: 13px 0 6px;
+      font-weight: bold;
+    }
+
+    textarea,
+    input,
+    select {
+      width: 100%;
+      padding: 12px 13px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--input);
+      color: var(--text);
+    }
+
+    textarea {
+      min-height: 140px;
+      resize: vertical;
+    }
+
+    .two-column {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .button-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    button {
+      padding: 12px 16px;
+      border: none;
+      border-radius: 10px;
+      background: var(--green);
+      color: #031209;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      filter: brightness(1.08);
+    }
+
+    button.secondary {
+      background: #3c4d62;
+      color: #ffffff;
+    }
+
+    button.blue {
+      background: var(--blue);
+      color: #02151d;
+    }
+
+    button.warning {
+      background: var(--yellow);
+      color: #211a00;
+    }
+
+    button.danger {
+      background: var(--red);
+      color: #ffffff;
+    }
+
+    button.outline {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .sample-buttons {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      margin-top: 10px;
+      padding-bottom: 4px;
+    }
+
+    .sample-buttons button {
+      flex: 0 0 auto;
+      padding: 9px 12px;
+      background: #17334f;
+      color: #ffffff;
+      border: 1px solid var(--border);
+      font-size: 0.9rem;
+    }
+
+    .status {
+      min-height: 24px;
+      margin-top: 10px;
+      color: var(--muted);
+      font-weight: bold;
+    }
+
+    .status.success {
+      color: var(--green);
+    }
+
+    .status.error {
+      color: #ff9f9f;
+    }
+
+    .visual-alert {
+      display: none;
+      margin-top: 16px;
+      padding: 18px;
+      border: 3px solid currentColor;
+      border-radius: 12px;
+      text-align: center;
+      font-size: clamp(1.15rem, 3vw, 1.65rem);
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .visual-alert.visible {
+      display: block;
+    }
+
+    .visual-alert.safe {
+      color: var(--green);
+      background: rgba(34, 197, 94, 0.1);
+    }
+
+    .visual-alert.caution {
+      color: var(--yellow);
+      background: rgba(250, 204, 21, 0.1);
+    }
+
+    .visual-alert.suspicious {
+      color: var(--orange);
+      background: rgba(251, 146, 60, 0.1);
+    }
+
+    .visual-alert.scam {
+      color: #ff7373;
+      background: rgba(239, 68, 68, 0.15);
+    }
+
+    .analysis-report {
+      display: none;
+      margin-top: 16px;
+      padding: 16px;
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      background: rgba(0, 0, 0, 0.2);
+    }
+
+    .analysis-report.visible {
+      display: block;
+    }
+
+    .risk-container {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 12px;
+      align-items: center;
+      margin: 14px 0 18px;
+    }
+
+    .risk-track {
+      height: 13px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: #24364b;
+    }
+
+    .risk-fill {
+      width: 0;
+      height: 100%;
+      background: var(--green);
+      transition: width 0.35s ease;
+    }
+
+    .information-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 11px;
+    }
+
+    .information-box {
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.035);
+    }
+
+    .information-box strong {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--blue);
+    }
+
+    .guardian-action {
+      display: none;
+      margin-top: 15px;
+      padding: 15px;
+      border: 1px solid rgba(250, 204, 21, 0.55);
+      border-radius: 11px;
+      background: rgba(250, 204, 21, 0.08);
+    }
+
+    .guardian-action.visible {
+      display: block;
+    }
+
+    .checkbox-line {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .checkbox-line input {
+      width: auto;
+      margin-top: 4px;
+    }
+
+    .settings {
+      display: grid;
+      gap: 8px;
+    }
+
+    .setting {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 9px 0 13px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .setting input {
+      width: auto;
+      transform: scale(1.2);
+    }
+
+    .statistics {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 11px;
+    }
+
+    .statistic {
+      padding: 15px 10px;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      background: rgba(0, 0, 0, 0.18);
+      text-align: center;
+    }
+
+    .statistic-number {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--green);
+      font-size: 2rem;
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .saved-guardian {
+      margin-top: 13px;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.035);
+    }
+
+    .screenshot-preview {
+      display: none;
+      max-width: 100%;
+      max-height: 320px;
+      margin-top: 12px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+    }
+
+    .screenshot-preview.visible {
+      display: block;
+    }
+
+    .recent-reports {
+      display: grid;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .recent-report {
+      padding: 11px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .recent-report small {
+      color: var(--muted);
+    }
+
+    .notice {
+      margin-top: 17px;
+      padding: 13px;
+      border-left: 4px solid var(--yellow);
+      border-radius: 8px;
+      background: rgba(250, 204, 21, 0.08);
+    }
+
+    footer {
+      padding-top: 28px;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    @media (max-width: 850px) {
+      .main-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        width: min(100% - 16px, 1100px);
+        padding-top: 10px;
+      }
+
+      .hero,
+      .card {
+        padding: 16px;
+        border-radius: 14px;
+      }
+
+      .two-column,
+      .information-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .risk-container {
+        grid-template-columns: 1fr;
+      }
+
+      .button-group button {
+        width: 100%;
+      }
+    }
+  </style>
 </head>
-
 
 <body>
 
+  <div class="container">
 
-<div class="container">
+    <header class="hero">
+      <h1 class="brand">🛡️ ScamShield.ng 🇳🇬</h1>
 
+      <p class="subtitle">
+        Detect suspicious messages, protect elderly and vulnerable users,
+        report scams and alert a trusted family guardian with permission.
+      </p>
 
-<div class="logo">
-🛡️ ScamShield.ng 🇳🇬
-</div>
+      <span class="privacy-badge">
+        🔒 Local prototype: saved information remains on this device
+      </span>
+    </header>
 
 
-<p class="subtitle">
-Nigeria Cyber Protection Platform
-<br>
-Detect scams. Protect families. Improve digital safety.
-</p>
+    <main class="main-layout">
 
+      <div class="stack">
 
+        <!-- SCAM ANALYSER -->
 
-<!-- SCAM ANALYZER -->
+        <section class="card">
 
-<div class="card">
+          <h2>🔍 Scam Message Analyser</h2>
 
+          <p class="helper-text">
+            Paste an SMS, WhatsApp message, email or suspicious
+            social-media message.
+          </p>
 
-<h2>
-🔍 Scam Analyzer
-</h2>
+          <label for="sms">Suspicious message</label>
 
+          <textarea
+            id="sms"
+            placeholder="Example: Your bank account has been blocked. Click this link and provide your OTP immediately."
+          ></textarea>
 
-<p>
-Paste any SMS, WhatsApp message, email or suspicious text below.
-</p>
 
+          <div class="sample-buttons">
 
-<textarea id="sms"
-placeholder="Paste suspicious message here..."></textarea>
+            <button type="button" onclick="loadSample('bank')">
+              Bank/OTP sample
+            </button>
 
+            <button type="button" onclick="loadSample('investment')">
+              Investment sample
+            </button>
 
-<button onclick="checkSMS()">
-Analyze Message
-</button>
+            <button type="button" onclick="loadSample('grant')">
+              CBN grant sample
+            </button>
 
+            <button type="button" onclick="loadSample('safe')">
+              Safe sample
+            </button>
 
-<button class="secondary"
-onclick="readResult()">
+          </div>
 
-🔊 Read Result
 
-</button>
+          <div class="button-group">
 
+            <button type="button" onclick="analyseMessage()">
+              Analyse Message
+            </button>
 
-<div id="result" class="result">
+            <button type="button" class="blue" onclick="readResult()">
+              🔊 Read Full Result
+            </button>
 
-Waiting for analysis...
+            <button type="button" class="secondary" onclick="stopVoice()">
+              Stop Voice
+            </button>
 
-</div>
+            <button type="button" class="outline" onclick="clearAnalysis()">
+              Clear
+            </button>
 
+          </div>
 
-</div>
 
+          <div
+            id="voiceStatus"
+            class="status"
+            role="status"
+            aria-live="polite"
+          ></div>
 
 
+          <div
+            id="visualAlert"
+            class="visual-alert"
+            role="alert"
+            aria-live="assertive"
+          ></div>
 
 
-<!-- GUARDIAN MODE -->
+          <div
+            id="analysisReport"
+            class="analysis-report"
+            aria-live="polite"
+          >
 
+            <h3 id="resultTitle">Analysis result</h3>
 
-<div class="card">
 
+            <div class="risk-container">
 
-<h2>
-👨‍👩‍👧 Family Guardian Protection
-</h2>
+              <strong>Risk score</strong>
 
+              <div class="risk-track">
+                <div id="riskFill" class="risk-fill"></div>
+              </div>
 
-<p>
-Protect elderly and vulnerable users by adding a trusted contact.
-</p>
+              <strong id="riskScore">0/100</strong>
 
+            </div>
 
-<input id="guardianName"
-placeholder="Guardian Name">
 
+            <div class="information-grid">
 
-<input id="guardianPhone"
-placeholder="Phone Number">
+              <div class="information-box">
+                <strong>Threat category</strong>
+                <span id="categoryResult">Not analysed</span>
+              </div>
 
+              <div class="information-box">
+                <strong>Threat level</strong>
+                <span id="levelResult">Not analysed</span>
+              </div>
 
-<input id="guardianRelation"
-placeholder="Relationship (Son, Daughter etc.)">
+              <div class="information-box">
+                <strong>Detected indicators</strong>
+                <span id="indicatorsResult">None</span>
+              </div>
 
+              <div class="information-box">
+                <strong>Recommended action</strong>
+                <span id="recommendationResult">
+                  Analyse a message first.
+                </span>
+              </div>
 
-<button onclick="saveGuardian()">
+            </div>
 
-Save Guardian
 
-</button>
+            <h3>Why this result?</h3>
 
+            <ul id="reasonsResult"></ul>
 
-<p id="guardianStatus"></p>
 
+            <div id="guardianAction" class="guardian-action">
 
-</div>
+              <strong id="guardianPrompt">
+                A high-risk scam has been detected.
+              </strong>
 
+              <p>
+                ScamShield will not send anything automatically.
+                The user must choose to notify the saved guardian.
+              </p>
 
+              <div class="checkbox-line">
 
+                <input type="checkbox" id="includeExcerpt">
 
+                <label for="includeExcerpt" style="margin: 0;">
+                  Include a short part of the suspicious message
+                  in the WhatsApp alert
+                </label>
 
-<!-- REPORT SYSTEM -->
+              </div>
 
 
-<div class="card">
+              <div class="button-group">
 
+                <button
+                  type="button"
+                  class="warning"
+                  onclick="sendGuardianAlert()"
+                >
+                  Notify Guardian on WhatsApp
+                </button>
 
-<h2>
-🚨 Report Scam
-</h2>
+                <button
+                  type="button"
+                  class="secondary"
+                  onclick="hideGuardianAlert()"
+                >
+                  Not Now
+                </button>
 
+              </div>
 
-<p>
-Help improve cybersecurity awareness by reporting suspicious messages.
-</p>
+            </div>
 
+          </div>
 
-<select id="platform">
 
-<option>WhatsApp</option>
-<option>SMS</option>
-<option>Email</option>
-<option>Facebook</option>
-<option>Telegram</option>
+          <div class="notice">
 
-</select>
+            <strong>Important:</strong>
 
+            ScamShield.ng provides a risk assessment based on
+            detectable patterns. A low-risk result does not guarantee
+            that the sender or message is genuine.
 
+          </div>
 
-<select id="category">
+        </section>
 
-<option>OTP Scam</option>
-<option>Fake Giveaway</option>
-<option>Banking Fraud</option>
-<option>Investment Scam</option>
-<option>Loan Scam</option>
 
-</select>
+        <!-- SCREENSHOT PREPARATION -->
 
+        <section class="card">
 
+          <h2>📷 Screenshot Scan Preparation</h2>
 
-<button onclick="reportScam()">
+          <p class="helper-text">
+            Upload a screenshot for preview. Then copy or type the
+            visible message into the analyser above.
+          </p>
 
-Submit Report
+          <p class="helper-text">
+            Automatic image text extraction is not included in this
+            offline coded prototype.
+          </p>
 
-</button>
+          <label for="screenshotInput">Choose screenshot</label>
 
+          <input
+            id="screenshotInput"
+            type="file"
+            accept="image/*"
+            onchange="previewScreenshot(event)"
+          >
 
-<p id="reportStatus"></p>
+          <img
+            id="screenshotPreview"
+            class="screenshot-preview"
+            alt="Uploaded screenshot preview"
+          >
 
+          <div
+            id="screenshotStatus"
+            class="status"
+            role="status"
+            aria-live="polite"
+          ></div>
 
-</div>
+        </section>
 
 
+        <!-- REPORT SCAM -->
 
+        <section class="card">
 
+          <h2>🚨 Report a Scam</h2>
 
-<!-- ACCESSIBILITY -->
+          <p class="helper-text">
+            Reports are stored locally in this browser for this
+            prototype.
+          </p>
 
+          <label for="reportMessage">Scam message</label>
 
-<div class="card">
+          <textarea
+            id="reportMessage"
+            placeholder="Paste the suspected scam message here..."
+          ></textarea>
 
 
-<h2>
-♿ Accessibility Protection
-</h2>
+          <div class="two-column">
 
+            <div>
 
-<p>
-Designed for blind and deaf users.
-</p>
+              <label for="reportPlatform">Platform</label>
 
+              <select id="reportPlatform">
 
-<button onclick="toggleAccessibility()">
+                <option value="WhatsApp">WhatsApp</option>
+                <option value="SMS">SMS</option>
+                <option value="Email">Email</option>
+                <option value="Facebook">Facebook</option>
+                <option value="Instagram">Instagram</option>
+                <option value="Telegram">Telegram</option>
+                <option value="Website">Website</option>
+                <option value="Other">Other</option>
 
-Enable Visual Alert Mode
+              </select>
 
-</button>
+            </div>
 
 
-</div>
+            <div>
 
+              <label for="reportCategory">Scam category</label>
 
+              <select id="reportCategory">
 
+                <option value="Phishing / Account Takeover">
+                  Phishing / Account Takeover
+                </option>
 
+                <option value="Fake Bank Verification">
+                  Fake Bank Verification
+                </option>
 
+                <option value="Investment / Ponzi Fraud">
+                  Investment / Ponzi Fraud
+                </option>
 
-<!-- EDUCATION -->
+                <option value="Fake Grant / Government Impersonation">
+                  Fake Grant / Government Impersonation
+                </option>
 
+                <option value="Fake Loan">
+                  Fake Loan
+                </option>
 
-<div class="card">
+                <option value="Fake Giveaway / Lottery">
+                  Fake Giveaway / Lottery
+                </option>
 
+                <option value="WhatsApp Impersonation">
+                  WhatsApp Impersonation
+                </option>
 
-<h2>
-📚 Nigerian Scam Education
-</h2>
+                <option value="Other">
+                  Other
+                </option>
 
+              </select>
 
-<div class="grid">
+            </div>
 
+          </div>
 
-<div class="stat">
-OTP Scam
-<br>
-Never share verification codes.
-</div>
 
+          <div class="button-group">
 
-<div class="stat">
-BVN Scam
-<br>
-Banks don't request BVN through messages.
-</div>
+            <button type="button" onclick="submitScamReport()">
+              Submit Report
+            </button>
 
+            <button
+              type="button"
+              class="secondary"
+              onclick="copyCurrentAnalysisToReport()"
+            >
+              Use Current Analysis
+            </button>
 
-<div class="stat">
-Fake Giveaway
-<br>
-Winning messages requesting payment are suspicious.
-</div>
+          </div>
 
 
-<div class="stat">
-WhatsApp Hack
-<br>
-Never share login codes.
-</div>
+          <div
+            id="reportStatus"
+            class="status"
+            role="status"
+            aria-live="polite"
+          ></div>
 
 
-</div>
+          <h3>Recent local reports</h3>
 
+          <div id="recentReports" class="recent-reports"></div>
 
-</div>
+        </section>
 
+      </div>
 
 
+      <aside class="stack">
 
+        <!-- GUARDIAN -->
 
+        <section class="card">
 
-<!-- STATISTICS -->
+          <h2>👨‍👩‍👧 Family Guardian Protection</h2>
 
+          <p class="helper-text">
+            Elderly or vulnerable users can save a trusted family
+            member or caregiver.
+          </p>
 
-<div class="card">
+          <label for="guardianName">Trusted contact name</label>
 
+          <input
+            id="guardianName"
+            type="text"
+            placeholder="Example: John"
+          >
 
-<h2>
-📊 ScamShield Statistics
-</h2>
 
+          <label for="guardianPhone">WhatsApp phone number</label>
 
-<div class="grid">
+          <input
+            id="guardianPhone"
+            type="tel"
+            placeholder="Example: +2348012345678"
+          >
 
 
-<div class="stat">
+          <label for="guardianRelationship">Relationship</label>
 
-<h3 id="checked">
-0
-</h3>
+          <select id="guardianRelationship">
 
-Messages Checked
+            <option value="Son">Son</option>
+            <option value="Daughter">Daughter</option>
+            <option value="Relative">Relative</option>
+            <option value="Caregiver">Caregiver</option>
+            <option value="Trusted friend">Trusted friend</option>
 
-</div>
+          </select>
 
 
+          <div class="checkbox-line">
 
-<div class="stat">
+            <input type="checkbox" id="guardianConsent">
 
-<h3 id="detected">
-0
-</h3>
+            <label for="guardianConsent" style="margin: 0;">
+              I have permission to save this contact for scam alerts.
+            </label>
 
-Threats Detected
+          </div>
 
-</div>
 
+          <div class="button-group">
 
+            <button type="button" onclick="saveGuardian()">
+              Save Guardian
+            </button>
 
-<div class="stat">
+            <button
+              type="button"
+              class="danger"
+              onclick="removeGuardian()"
+            >
+              Remove Guardian
+            </button>
 
-<h3>
-Nigeria
-</h3>
+          </div>
 
-Protection Region
 
-</div>
+          <div
+            id="guardianStatus"
+            class="status"
+            role="status"
+            aria-live="polite"
+          ></div>
 
 
-</div>
+          <div id="savedGuardian" class="saved-guardian">
+            No guardian saved.
+          </div>
 
+        </section>
 
-</div>
 
+        <!-- ACCESSIBILITY -->
 
+        <section class="card">
 
+          <h2>♿ Accessibility</h2>
 
 
-<div class="tip">
+          <div class="settings">
 
-<b>Safety Tip:</b>
-Never click unknown links or share OTP, passwords, BVN, or banking information.
+            <div class="setting">
 
-</div>
+              <span>
+                <strong>Voice warnings</strong><br>
+                <small class="helper-text">
+                  Helps blind and low-vision users
+                </small>
+              </span>
 
+              <input
+                id="voiceToggle"
+                type="checkbox"
+                checked
+                onchange="saveAccessibilitySettings()"
+              >
 
+            </div>
 
-<footer>
 
-ScamShield.ng © 2026
-<br>
-Building a safer digital Nigeria
+            <div class="setting">
 
-</footer>
+              <span>
+                <strong>Large text</strong><br>
+                <small class="helper-text">
+                  Makes text easier to read
+                </small>
+              </span>
 
+              <input
+                id="largeTextToggle"
+                type="checkbox"
+                onchange="saveAccessibilitySettings()"
+              >
 
+            </div>
 
-</div>
 
-<script>
+            <div class="setting">
 
+              <span>
+                <strong>High contrast</strong><br>
+                <small class="helper-text">
+                  Supports low-vision users
+                </small>
+              </span>
 
-// ================================
-// GLOBAL DATA STORAGE
-// ================================
+              <input
+                id="highContrastToggle"
+                type="checkbox"
+                onchange="saveAccessibilitySettings()"
+              >
 
+            </div>
 
-let totalChecked =
-Number(localStorage.getItem("checked")) || 0;
 
+            <div class="setting">
 
-let totalDetected =
-Number(localStorage.getItem("detected")) || 0;
+              <span>
+                <strong>Strong visual warnings</strong><br>
+                <small class="helper-text">
+                  Helps deaf and hard-of-hearing users
+                </small>
+              </span>
 
+              <input
+                id="visualAlertToggle"
+                type="checkbox"
+                checked
+                onchange="saveAccessibilitySettings()"
+              >
 
+            </div>
 
-// ================================
-// VOICE SECURITY ALERT
-// ================================
+          </div>
 
+        </section>
 
-function speak(message){
 
+        <!-- DASHBOARD -->
 
-window.speechSynthesis.cancel();
+        <section class="card">
 
+          <h2>📊 Threat Dashboard</h2>
 
-let speech =
-new SpeechSynthesisUtterance(message);
 
+          <div class="statistics">
 
-speech.lang="en-US";
+            <div class="statistic">
 
-speech.rate=1;
+              <span id="messagesCheckedCount" class="statistic-number">
+                0
+              </span>
 
-speech.pitch=1;
+              Messages checked
 
+            </div>
 
-window.speechSynthesis.speak(speech);
 
+            <div class="statistic">
 
-}
+              <span id="threatsDetectedCount" class="statistic-number">
+                0
+              </span>
 
+              Threats detected
 
+            </div>
 
 
-function readResult(){
+            <div class="statistic">
 
+              <span id="highRiskCount" class="statistic-number">
+                0
+              </span>
 
-let result =
-document.getElementById("result").innerText;
+              High-risk alerts
 
+            </div>
 
-if(result.trim() !== ""){
 
-speak(result);
+            <div class="statistic">
 
-}
+              <span id="scamReportCount" class="statistic-number">
+                0
+              </span>
 
+              Scam reports
 
-}
+            </div>
 
+          </div>
 
 
+          <div class="button-group">
 
+            <button
+              type="button"
+              class="danger"
+              onclick="resetLocalData()"
+            >
+              Reset Local Demo Data
+            </button>
 
+          </div>
 
-// ================================
-// SCAM ANALYSIS ENGINE
-// ================================
+        </section>
 
 
-function checkSMS(){
+        <!-- EDUCATION -->
 
+        <section class="card">
 
-let text =
-document.getElementById("sms").value.toLowerCase();
+          <h2>📚 Nigerian Scam Safety Guide</h2>
 
+          <ul>
 
+            <li>
+              Never send an OTP, PIN, CVV or password to anyone.
+            </li>
 
-if(text.trim()==""){
+            <li>
+              Guaranteed extremely high returns within hours or days
+              are major investment-scam warnings.
+            </li>
 
+            <li>
+              Confirm government grants through official government
+              websites and verified channels.
+            </li>
 
-document.getElementById("result").innerHTML =
+            <li>
+              Never share the six-digit WhatsApp registration code.
+            </li>
 
-"⚠️ Please enter a message to analyse.";
+            <li>
+              Do not pay a processing fee before receiving a prize,
+              grant or loan.
+            </li>
 
-return;
+          </ul>
 
+        </section>
 
-}
+      </aside>
 
+    </main>
 
 
-let score = 0;
+    <footer>
+      ScamShield.ng prototype — Building a safer digital Nigeria
+    </footer>
 
+  </div>
 
-let indicators=[];
 
+  <script>
+    "use strict";
 
-let reasons=[];
 
+    /*
+    ============================================
+    LOCAL STORAGE NAMES
+    ============================================
+    */
 
-let category="General Suspicious Message";
+    const STORAGE_KEYS = {
 
+      statistics: "scamshield_statistics_v4",
 
+      reports: "scamshield_reports_v4",
 
+      guardian: "scamshield_guardian_v4",
 
-// ================================
-// SCAM KEYWORD DATABASE
-// ================================
+      accessibility: "scamshield_accessibility_v4"
 
+    };
 
-let patterns={
 
+    let lastAnalysis = null;
 
-"otp":35,
+    let screenshotURL = null;
 
-"verification code":35,
 
-"password":30,
 
-"pin":30,
+    /*
+    ============================================
+    LOCAL STORAGE HELPERS
+    ============================================
+    */
 
-"bvn":30,
+    function getSavedData(key, fallbackValue) {
 
-"account blocked":25,
+      try {
 
-"click link":25,
+        const savedValue = localStorage.getItem(key);
 
-"click":15,
+        return savedValue
+          ? JSON.parse(savedValue)
+          : fallbackValue;
 
-"urgent":15,
+      } catch (error) {
 
-"immediately":15,
+        console.error("Unable to read saved data:", error);
 
-"winner":25,
+        return fallbackValue;
 
-"reward":20,
+      }
 
-"claim":20,
+    }
 
-"congratulations":20,
 
-"investment":30,
 
-"profit":25,
+    function saveData(key, value) {
 
-"loan":20,
+      try {
 
-"grant":20,
+        localStorage.setItem(
+          key,
+          JSON.stringify(value)
+        );
 
-"transfer money":30,
+        return true;
 
-"payment":20,
+      } catch (error) {
 
-"crypto":25,
+        console.error("Unable to save data:", error);
 
-"airtime":15,
+        return false;
 
-"free":15
+      }
 
+    }
 
-};
 
 
+    function removeDuplicateItems(items) {
 
+      return [...new Set(items.filter(Boolean))];
 
+    }
 
-Object.keys(patterns).forEach(word=>{
 
 
-if(text.includes(word)){
+    function showStatus(elementId, message, type = "") {
 
+      const element = document.getElementById(elementId);
 
-score += patterns[word];
+      element.textContent = message;
 
+      element.className = "status";
 
-indicators.push(word);
+      if (type) {
 
+        element.classList.add(type);
 
-}
+      }
 
+    }
 
-});
 
 
+    /*
+    ============================================
+    ACCESSIBILITY SETTINGS
+    ============================================
+    */
 
+    function getAccessibilitySettings() {
 
+      return getSavedData(
+        STORAGE_KEYS.accessibility,
+        {
+          voice: true,
+          largeText: false,
+          highContrast: false,
+          visualAlerts: true
+        }
+      );
 
+    }
 
 
-// ================================
-// LINK DETECTION
-// ================================
 
+    function saveAccessibilitySettings() {
 
-let riskyLinks=[
+      const settings = {
 
-"http://",
+        voice:
+          document.getElementById("voiceToggle").checked,
 
-"https://",
+        largeText:
+          document.getElementById("largeTextToggle").checked,
 
-"bit.ly",
+        highContrast:
+          document.getElementById("highContrastToggle").checked,
 
-"tinyurl",
+        visualAlerts:
+          document.getElementById("visualAlertToggle").checked
 
-".xyz",
+      };
 
-".top",
 
-".click"
+      saveData(
+        STORAGE_KEYS.accessibility,
+        settings
+      );
 
-];
 
+      applyAccessibilitySettings(settings);
 
+    }
 
-riskyLinks.forEach(link=>{
 
 
-if(text.includes(link)){
+    function applyAccessibilitySettings(settings) {
 
+      document.body.classList.toggle(
+        "large-text",
+        Boolean(settings.largeText)
+      );
 
-score +=40;
 
+      document.body.classList.toggle(
+        "high-contrast",
+        Boolean(settings.highContrast)
+      );
 
-indicators.push(link);
 
+      document.getElementById("voiceToggle").checked =
+        Boolean(settings.voice);
 
-reasons.push(
-"Contains a suspicious link that may lead to phishing."
-);
 
+      document.getElementById("largeTextToggle").checked =
+        Boolean(settings.largeText);
 
-}
 
+      document.getElementById("highContrastToggle").checked =
+        Boolean(settings.highContrast);
 
-});
 
+      document.getElementById("visualAlertToggle").checked =
+        Boolean(settings.visualAlerts);
 
+    }
 
 
 
+    /*
+    ============================================
+    VOICE SYSTEM
+    ============================================
+    */
 
-// ================================
-// SCAM CLASSIFICATION
-// ================================
+    function speak(message) {
 
+      const settings = getAccessibilitySettings();
 
 
-if(
+      if (!settings.voice) {
 
-text.includes("otp") ||
+        showStatus(
+          "voiceStatus",
+          "Voice warnings are switched off."
+        );
 
-text.includes("password") ||
+        return;
 
-text.includes("bvn") ||
+      }
 
-text.includes("verification")
 
-){
+      if (!("speechSynthesis" in window)) {
 
+        showStatus(
+          "voiceStatus",
+          "Voice output is not supported by this browser.",
+          "error"
+        );
 
-category =
-"Phishing / Account Takeover Scam";
+        return;
 
+      }
 
-reasons.push(
-"Requests sensitive security information."
-);
 
+      try {
 
-}
+        window.speechSynthesis.cancel();
 
 
+        const speech =
+          new SpeechSynthesisUtterance(message);
 
-else if(
 
-text.includes("investment") ||
+        speech.lang = "en-NG";
 
-text.includes("profit") ||
+        speech.rate = 0.95;
 
-text.includes("crypto")
+        speech.pitch = 1;
 
-){
+        speech.volume = 1;
 
 
-category =
-"Investment Fraud Scam";
+        speech.onstart = function () {
 
+          showStatus(
+            "voiceStatus",
+            "🔊 Speaking security warning...",
+            "success"
+          );
 
-reasons.push(
-"Uses financial promises to attract victims."
-);
+        };
 
 
-}
+        speech.onend = function () {
 
+          showStatus(
+            "voiceStatus",
+            "Voice message completed."
+          );
 
+        };
 
-else if(
 
-text.includes("winner") ||
+        speech.onerror = function () {
 
-text.includes("reward") ||
+          showStatus(
+            "voiceStatus",
+            "Voice message could not be completed.",
+            "error"
+          );
 
-text.includes("claim")
+        };
 
-){
 
+        window.speechSynthesis.speak(speech);
 
-category =
-"Fake Giveaway / Lottery Scam";
+      } catch (error) {
 
+        showStatus(
+          "voiceStatus",
+          "Voice output is unavailable.",
+          "error"
+        );
 
-reasons.push(
-"Uses fake rewards to manipulate users."
-);
+      }
 
+    }
 
-}
 
 
+    function stopVoice() {
 
-else if(
+      if ("speechSynthesis" in window) {
 
-text.includes("loan")
+        window.speechSynthesis.cancel();
 
-){
+      }
 
 
-category =
-"Fake Loan Scam";
+      showStatus(
+        "voiceStatus",
+        "Voice stopped."
+      );
 
+    }
 
-reasons.push(
-"May involve fraudulent loan services."
-);
 
 
-}
+    function readResult() {
 
+      if (!lastAnalysis) {
 
+        speak(
+          "No message has been analysed yet."
+        );
 
-else if(
+        return;
 
-text.includes("cbn") ||
+      }
 
-text.includes("grant") ||
 
-text.includes("nysc")
+      const spokenReasons =
+        lastAnalysis.reasons.length > 0
 
-){
+          ? lastAnalysis.reasons.join(". ")
 
+          : "No major suspicious pattern was detected.";
 
-category =
-"Fake Government Programme Scam";
 
+      const fullMessage =
 
-reasons.push(
-"Uses fake government opportunities."
-);
+        lastAnalysis.level +
 
+        ". Risk score " +
 
-}
+        lastAnalysis.score +
 
+        " percent. Threat category: " +
 
+        lastAnalysis.category +
 
+        ". " +
 
+        spokenReasons +
 
-// ================================
-// SOCIAL ENGINEERING DETECTION
-// ================================
+        ". Recommendation: " +
 
+        lastAnalysis.recommendation;
 
-if(
 
-text.includes("urgent") ||
+      speak(fullMessage);
 
-text.includes("immediately")
+    }
 
-){
 
 
-score +=10;
+    /*
+    ============================================
+    SCAM DETECTION RULES
+    ============================================
+    */
 
+    const detectionRules = [
 
-reasons.push(
-"Uses pressure and urgency tactics."
-);
+      {
+        label: "OTP or verification code request",
 
+        weight: 38,
 
-}
+        category: "Phishing / Account Takeover",
 
+        reason:
+          "Requests a confidential verification code that could be used to take over an account.",
 
+        pattern:
+          /\b(otp|one[- ]?time password|verification code|whatsapp code|six[- ]?digit code)\b/i
+      },
 
 
-if(
+      {
+        label: "Password, PIN or CVV request",
 
-text.includes("share") &&
+        weight: 38,
 
-(
+        category: "Phishing / Account Takeover",
 
-text.includes("code") ||
+        reason:
+          "Requests sensitive login or bank-card information.",
 
-text.includes("otp")
+        pattern:
+          /\b(password|atm pin|card pin|transaction pin|cvv|security code)\b/i
+      },
 
-)
 
-){
+      {
+        label: "BVN or NIN request",
 
+        weight: 32,
 
-score +=25;
+        category: "Fake Bank Verification",
 
+        reason:
+          "Requests sensitive identity information commonly targeted in Nigerian banking scams.",
 
-reasons.push(
-"Requests confidential information."
-);
+        pattern:
+          /\b(bvn|bank verification number|nin|national identification number)\b/i
+      },
 
 
-}
+      {
+        label: "Blocked or suspended account threat",
 
+        weight: 25,
 
+        category: "Fake Bank Verification",
 
+        reason:
+          "Creates fear by claiming that an account has been blocked, suspended or compromised.",
 
+        pattern:
+          /\b(account|wallet|bank account)\b.{0,45}\b(blocked|suspended|restricted|compromised|deactivated|locked)\b/i
+      },
 
-// Maximum score
 
-score=Math.min(score,100);
+      {
+        label: "Immediate account verification",
 
+        weight: 24,
 
+        category: "Fake Bank Verification",
 
+        reason:
+          "Pressures the user to verify, unlock or restore an account through an untrusted message.",
 
+        pattern:
+          /\b(verify|reactivate|restore|unlock|update)\b.{0,35}\b(account|bvn|nin|bank details|profile)\b/i
+      },
 
-let result="";
 
-let voice="";
+      {
+        label: "Guaranteed investment return",
 
-let recommendation="";
+        weight: 42,
 
+        category: "Investment / Ponzi Fraud",
 
+        reason:
+          "Promises guaranteed or unrealistic financial returns.",
 
+        pattern:
+          /\b(guaranteed|sure|risk[- ]?free)\b.{0,40}\b(profit|return|income|earning|payout)\b/i
+      },
 
 
-if(score>=70){
+      {
+        label: "Extreme return within a short period",
 
+        weight: 40,
 
-result =
+        category: "Investment / Ponzi Fraud",
 
-`
-<div class="alert scam">
+        reason:
+          "Offers unusually high returns within hours or days.",
 
-❌ HIGH RISK SCAM
+        pattern:
+          /\b(invest|deposit|send)\b.{0,40}\b(receive|earn|get|double|triple|profit)\b.{0,45}\b(24 hours|hours|today|daily|day|week)\b/i
+      },
 
-<br><br>
 
-Risk Score:
-${score}%
+      {
+        label: "Investment, crypto or forex offer",
 
-</div>
-`;
+        weight: 24,
 
+        category: "Investment / Ponzi Fraud",
 
+        reason:
+          "Promotes an unsolicited investment, cryptocurrency, forex or trading opportunity.",
 
-voice =
-"Warning. This is likely a scam message. Do not share your personal information.";
+        pattern:
+          /\b(investment|invest now|crypto|bitcoin|forex|trading platform|ponzi|double your money)\b/i
+      },
 
 
+      {
+        label: "Limited slots or scarcity pressure",
 
-recommendation =
-"Do not click links, send money, reply, or share OTP.";
+        weight: 16,
 
+        category: "Investment / Ponzi Fraud",
 
+        reason:
+          "Uses scarcity to pressure the user into acting quickly.",
 
+        pattern:
+          /\b(limited slots?|few slots?|offer ends|last chance|act now|hurry)\b/i
+      },
 
 
-totalDetected++;
+      {
+        label: "Prize, reward or lottery claim",
 
+        weight: 25,
 
+        category: "Fake Giveaway / Lottery",
 
-}
+        reason:
+          "Claims that the user has won a reward or prize.",
 
+        pattern:
+          /\b(congratulations|you have won|winner|lottery|reward|prize|giveaway|claim your)\b/i
+      },
 
 
+      {
+        label: "Processing or advance fee",
 
+        weight: 34,
 
-else if(score>=40){
+        category: "Advance-Fee Fraud",
 
+        reason:
+          "Requests payment before a prize, loan, grant or benefit can be released.",
 
-result=
+        pattern:
+          /\b(processing fee|activation fee|release fee|clearance fee|registration fee|pay.{0,20}fee|send.{0,20}fee)\b/i
+      },
 
-`
-<div class="alert warning">
 
-⚠️ SUSPICIOUS MESSAGE
+      {
+        label: "Fake grant or government programme",
 
-<br><br>
+        weight: 28,
 
-Risk Score:
-${score}%
+        category: "Fake Grant / Government Impersonation",
 
-</div>
-`;
+        reason:
+          "Uses a government, CBN, NYSC or empowerment programme name to create false credibility.",
 
+        pattern:
+          /\b(cbn grant|federal government grant|government grant|nysc opportunity|empowerment programme|palliative fund|youth grant)\b/i
+      },
 
 
-voice =
-"This message looks suspicious. Please verify before responding.";
+      {
+        label: "Unsolicited loan approval",
 
+        weight: 24,
 
+        category: "Fake Loan",
 
-recommendation =
-"Confirm the sender before taking action.";
+        reason:
+          "Claims that a loan has been approved without a normal application process.",
 
+        pattern:
+          /\b(loan approved|instant loan|quick loan|loan offer|pre[- ]?approved loan|borrow now)\b/i
+      },
 
 
-totalDetected++;
+      {
+        label: "Urgency or pressure language",
 
+        weight: 12,
 
+        category: "Social Engineering",
 
-}
+        reason:
+          "Uses urgency to reduce the user's time to verify the request.",
 
+        pattern:
+          /\b(urgent|immediately|within 10 minutes|within 30 minutes|act immediately|respond now)\b/i
+      },
 
 
+      {
+        label: "Money transfer request",
 
-else if(score>=20){
+        weight: 28,
 
+        category: "Payment Fraud",
 
-result=
+        reason:
+          "Requests an immediate money transfer or payment.",
 
-`
-<div class="alert warning">
+        pattern:
+          /\b(send money|transfer money|make payment|pay into|send funds|deposit money)\b/i
+      },
 
-🟡 CAUTION MESSAGE
 
-<br><br>
+      {
+        label: "Bank or card details request",
 
-Risk Score:
-${score}%
+        weight: 30,
 
-</div>
-`;
+        category: "Phishing / Account Takeover",
 
+        reason:
+          "Requests financial information that should not be shared through an unsolicited message.",
 
+        pattern:
+          /\b(account details|bank details|card details|atm details|debit card details|login details)\b/i
+      },
 
-voice =
-"This message requires caution.";
 
+      {
+        label: "WhatsApp new-number impersonation",
 
-recommendation =
-"Stay alert and verify information.";
+        weight: 30,
 
+        category: "WhatsApp Impersonation",
 
+        reason:
+          "May impersonate a relative or friend using a new number.",
 
-}
+        pattern:
+          /\b(this is (your )?(son|daughter|brother|sister|friend)|my new number|save my new number|lost my phone)\b/i
+      },
 
 
+      {
+        label: "Free airtime or data bait",
 
+        weight: 20,
 
-else{
+        category: "Fake Giveaway / Lottery",
 
+        reason:
+          "Uses free airtime or data to encourage unsafe clicking or sharing.",
 
-result=
+        pattern:
+          /\b(free airtime|free data|airtime giveaway|data giveaway)\b/i
+      }
 
-`
-<div class="alert safe">
+    ];
 
-✅ SAFE MESSAGE
 
-<br><br>
 
-Risk Score:
-${score}%
+    /*
+    ============================================
+    LINK ANALYSIS
+    ============================================
+    */
 
-</div>
-`;
+    function analyseLinks(text) {
 
+      let score = 0;
 
+      let category = "";
 
-voice =
-"This message appears safe.";
+      const indicators = [];
 
+      const reasons = [];
 
 
-recommendation =
-"No major threat detected.";
+      const linkPattern =
+        /\b((?:https?:\/\/|www\.)[^\s<]+|(?:[a-z0-9-]+\.)+(?:com|net|org|ng|xyz|top|click|buzz|work)(?:\/[^\s<]*)?)/gi;
 
-}
 
+      const links = text.match(linkPattern) || [];
 
 
+      if (links.length === 0) {
 
-totalChecked++;
+        return {
+          score,
+          category,
+          indicators,
+          reasons
+        };
 
+      }
 
 
-localStorage.setItem(
-"checked",
-totalChecked
-);
+      indicators.push("Contains a web link");
 
 
-localStorage.setItem(
-"detected",
-totalDetected
-);
+      links.forEach(function (linkValue) {
 
+        const link = linkValue.toLowerCase();
 
 
+        if (
+          /\b(bit\.ly|tinyurl\.com|t\.co|cutt\.ly|tiny\.cc|rb\.gy)\b/i
+            .test(link)
+        ) {
 
+          score += 28;
 
-document.getElementById("checked").innerText =
-totalChecked;
+          indicators.push("Shortened link");
 
+          reasons.push(
+            "Uses a shortened link that hides the final website address."
+          );
 
-document.getElementById("detected").innerText =
-totalDetected;
+          category = "Phishing / Suspicious Link";
 
+        }
 
 
+        if (
+          /\.(xyz|top|click|buzz|work)(\/|$)/i
+            .test(link)
+        ) {
 
+          score += 30;
 
-document.getElementById("result").innerHTML =
+          indicators.push("Suspicious domain ending");
 
-result +
+          reasons.push(
+            "Uses a domain ending commonly associated with disposable or suspicious websites."
+          );
 
+          category = "Phishing / Suspicious Link";
 
-`
+        }
 
-<br>
 
-<b>Threat Category:</b>
-${category}
+        if (/^http:\/\//i.test(link)) {
 
+          score += 15;
 
-<br><br>
+          indicators.push("Unencrypted HTTP link");
 
-<b>Detected Indicators:</b>
+          reasons.push(
+            "Uses an unencrypted HTTP web address."
+          );
 
-<br>
+          category = category || "Phishing / Suspicious Link";
 
-${
+        }
 
-indicators.join(", ")
 
-|| "None"
+        if (/xn--/i.test(link)) {
 
-}
+          score += 35;
 
+          indicators.push("Encoded domain");
 
-<br><br>
+          reasons.push(
+            "Uses an encoded website address that may imitate a familiar website."
+          );
 
-<b>Reasons:</b>
+          category = "Phishing / Suspicious Link";
 
-<br>
+        }
 
-${
 
-reasons.join("<br>")
+        if (
+          /\b(login|verify|update|secure|account|wallet|bank|claim)\b/i
+            .test(link)
+        ) {
 
-|| "No suspicious patterns detected."
+          score += 18;
 
-}
+          indicators.push("Sensitive action inside link");
 
+          reasons.push(
+            "The link contains terms related to account login, verification or reward claims."
+          );
 
-<br><br>
+          category = category || "Phishing / Suspicious Link";
 
-<b>Recommendation:</b>
+        }
 
-<br>
+      });
 
-${recommendation}
 
-`;
+      return {
 
+        score: Math.min(score, 55),
 
+        category,
 
+        indicators:
+          removeDuplicateItems(indicators),
 
+        reasons:
+          removeDuplicateItems(reasons)
 
-if(score>=40){
+      };
 
-speak(voice);
+    }
 
-}
 
 
+    /*
+    ============================================
+    THREAT LEVELS
+    ============================================
+    */
 
-}
+    function getThreatOutcome(score) {
 
+      if (score >= 70) {
 
+        return {
 
+          level: "High-Risk Scam",
 
+          className: "scam",
 
-// ================================
-// SCAM REPORTING SYSTEM
-// ================================
+          alert:
+            "🚨 HIGH-RISK SCAM — DO NOT CLICK, PAY OR SHARE INFORMATION",
 
+          recommendation:
+            "Stop. Do not click links, reply, send money or share OTP, PIN, passwords, BVN, NIN, card or bank details. Verify through an official channel."
 
-function reportScam(){
+        };
 
+      }
 
-let platform =
-document.getElementById("platform").value;
 
+      if (score >= 40) {
 
-let category =
-document.getElementById("category").value;
+        return {
 
+          level: "Suspicious Message",
 
+          className: "suspicious",
 
-let message =
-document.getElementById("sms").value;
+          alert:
+            "⚠️ SUSPICIOUS MESSAGE — VERIFY BEFORE TAKING ACTION",
 
+          recommendation:
+            "Do not act yet. Contact the person or organisation through an independent official channel and avoid unknown links."
 
+        };
 
-if(message.trim()==""){
+      }
 
 
-document.getElementById("reportStatus").innerHTML =
+      if (score >= 20) {
 
-"⚠️ Please analyse or paste a scam message first.";
+        return {
 
+          level: "Caution Required",
 
-return;
+          className: "caution",
 
+          alert:
+            "🟡 CAUTION — CHECK THE SENDER AND THE REQUEST",
 
-}
+          recommendation:
+            "Proceed carefully. Confirm the sender's identity and verify the request before replying, clicking or paying."
 
+        };
 
+      }
 
 
-let reports =
+      return {
 
-JSON.parse(
+        level: "Low Detected Risk",
 
-localStorage.getItem("scamReports")
+        className: "safe",
 
-)
+        alert:
+          "✅ LOW DETECTED RISK — REMAIN ALERT",
 
-|| [];
+        recommendation:
+          "No major scam pattern was detected, but this does not prove that the message is genuine. Verify unusual or sensitive requests."
 
+      };
 
+    }
 
 
-reports.push({
 
-message:message,
+    /*
+    ============================================
+    MAIN MESSAGE ANALYSIS
+    ============================================
+    */
 
-platform:platform,
+    function analyseMessage() {
 
-category:category,
+      const input =
+        document.getElementById("sms");
 
-date:new Date().toLocaleString()
 
+      const originalMessage =
+        input.value.trim();
 
-});
 
+      const text =
+        originalMessage.toLowerCase();
 
 
+      if (!text) {
 
+        const alert =
+          document.getElementById("visualAlert");
 
-localStorage.setItem(
 
-"scamReports",
+        alert.textContent =
+          "Please enter a message before analysing.";
 
-JSON.stringify(reports)
 
-);
+        alert.className =
+          "visual-alert caution visible";
 
 
+        document
+          .getElementById("analysisReport")
+          .classList.remove("visible");
 
 
+        input.focus();
 
-document.getElementById("reportStatus").innerHTML =
+        return;
 
-"✅ Scam report submitted. Thank you for helping protect others.";
+      }
 
 
+      let score = 0;
 
-}
 
+      const indicators = [];
 
 
+      const reasons = [];
 
 
+      const categoryScores = {};
 
 
-// ================================
-// FAMILY GUARDIAN MODE
-// ================================
 
+      detectionRules.forEach(function (rule) {
 
-function saveGuardian(){
+        if (rule.pattern.test(text)) {
 
+          score += rule.weight;
 
 
-let name =
+          indicators.push(rule.label);
 
-document.getElementById("guardianName").value;
 
+          reasons.push(rule.reason);
 
 
-let phone =
+          categoryScores[rule.category] =
 
-document.getElementById("guardianPhone").value;
+            (categoryScores[rule.category] || 0)
 
+            + rule.weight;
 
+        }
 
-let relation =
+      });
 
-document.getElementById("guardianRelation").value;
 
 
+      const linkAnalysis =
+        analyseLinks(text);
 
 
+      score += linkAnalysis.score;
 
-if(
 
-name=="" ||
+      indicators.push(
+        ...linkAnalysis.indicators
+      );
 
-phone==""
 
-){
+      reasons.push(
+        ...linkAnalysis.reasons
+      );
 
 
-document.getElementById("guardianStatus").innerHTML =
+      if (linkAnalysis.category) {
 
-"⚠️ Please enter guardian details.";
+        categoryScores[linkAnalysis.category] =
 
+          (categoryScores[linkAnalysis.category] || 0)
 
-return;
+          + linkAnalysis.score;
 
+      }
 
-}
 
 
+      score = Math.min(score, 100);
 
 
 
+      let category =
+        "No Specific Scam Category Detected";
 
-let guardian={
 
+      const orderedCategories =
+        Object.entries(categoryScores)
+          .sort(function (first, second) {
 
-name:name,
+            return second[1] - first[1];
 
-phone:phone,
+          });
 
-relationship:relation,
 
-permission:true
+      if (orderedCategories.length > 0) {
 
+        category =
+          orderedCategories[0][0];
 
-};
+      }
 
 
 
+      const outcome =
+        getThreatOutcome(score);
 
-localStorage.setItem(
 
-"guardian",
 
-JSON.stringify(guardian)
+      lastAnalysis = {
 
-);
+        message:
+          originalMessage,
 
+        score,
 
+        category,
 
+        level:
+          outcome.level,
 
+        recommendation:
+          outcome.recommendation,
 
-document.getElementById("guardianStatus").innerHTML =
+        indicators:
+          removeDuplicateItems(indicators),
 
-"✅ Guardian protection enabled.";
+        reasons:
+          removeDuplicateItems(reasons),
 
+        analysedAt:
+          new Date().toISOString()
 
+      };
 
 
 
-}
+      displayAnalysis(
+        lastAnalysis,
+        outcome
+      );
 
 
+      updateStatistics(score);
 
 
+      prepareReportFromAnalysis(
+        lastAnalysis
+      );
 
 
+      prepareGuardianAlert(score);
 
-// ================================
-// GUARDIAN ALERT SYSTEM
-// ================================
 
 
-function notifyGuardian(){
+      const settings =
+        getAccessibilitySettings();
 
 
+      if (
+        settings.voice &&
+        score >= 40
+      ) {
 
-let guardian =
+        speak(
 
-JSON.parse(
+          outcome.level +
 
-localStorage.getItem("guardian")
+          ". Risk score " +
 
-);
+          score +
 
+          " percent. " +
 
+          outcome.recommendation
 
+        );
 
+      }
 
-if(!guardian){
+    }
 
 
-alert(
 
-"No guardian contact saved."
+    function displayAnalysis(
+      analysis,
+      outcome
+    ) {
 
-);
+      const settings =
+        getAccessibilitySettings();
 
 
-return;
+      const visualAlert =
+        document.getElementById("visualAlert");
 
 
-}
+      visualAlert.textContent =
+        outcome.alert;
 
 
+      visualAlert.className =
+        "visual-alert " +
+        outcome.className;
 
 
-let message =
+      if (settings.visualAlerts) {
 
-`
-🚨 ScamShield Alert
+        visualAlert.classList.add("visible");
 
-A high-risk scam message was detected.
+      }
 
-Category:
-Please check the user's device and provide assistance.
 
-Generated by ScamShield.ng
-`;
 
+      document
+        .getElementById("analysisReport")
+        .classList.add("visible");
 
 
 
+      document
+        .getElementById("resultTitle")
+        .textContent =
 
-// Opens WhatsApp with permission
+        outcome.level +
 
-let whatsapp =
+        ": " +
 
-"https://wa.me/" +
+        analysis.score +
 
-guardian.phone +
+        "% risk";
 
-"?text=" +
 
-encodeURIComponent(message);
 
+      document
+        .getElementById("riskScore")
+        .textContent =
 
+        analysis.score + "/100";
 
 
 
-window.open(
+      document
+        .getElementById("categoryResult")
+        .textContent =
 
-whatsapp,
+        analysis.category;
 
-"_blank"
 
-);
 
+      document
+        .getElementById("levelResult")
+        .textContent =
 
+        outcome.level;
 
-}
 
 
+      document
+        .getElementById("indicatorsResult")
+        .textContent =
 
+        analysis.indicators.length > 0
 
+          ? analysis.indicators.join(", ")
 
+          : "No major indicator matched";
 
 
-// ================================
-// ACCESSIBILITY MODE
-// ================================
 
+      document
+        .getElementById("recommendationResult")
+        .textContent =
 
-function toggleAccessibility(){
+        analysis.recommendation;
 
 
 
-document.body.style.fontSize="20px";
+      const riskFill =
+        document.getElementById("riskFill");
 
-document.body.style.background="#000";
 
-document.body.style.color="#fff";
+      riskFill.style.width =
+        analysis.score + "%";
 
 
+      if (analysis.score >= 70) {
 
+        riskFill.style.background =
+          "var(--red)";
 
-alert(
+      } else if (analysis.score >= 40) {
 
-"♿ Accessibility Mode Enabled. Text enlarged and contrast improved."
+        riskFill.style.background =
+          "var(--orange)";
 
-);
+      } else if (analysis.score >= 20) {
 
+        riskFill.style.background =
+          "var(--yellow)";
 
+      } else {
 
-}
+        riskFill.style.background =
+          "var(--green)";
 
+      }
 
 
 
+      const reasonsList =
+        document.getElementById("reasonsResult");
 
 
+      reasonsList.innerHTML = "";
 
-// ================================
-// LOAD SAVED DATA
-// ================================
 
 
-document.getElementById("checked").innerText =
+      const reasonsToDisplay =
 
-totalChecked;
+        analysis.reasons.length > 0
 
+          ? analysis.reasons
 
+          : [
+              "No major suspicious pattern was detected. This does not guarantee that the message is genuine."
+            ];
 
-document.getElementById("detected").innerText =
 
-totalDetected;
 
+      reasonsToDisplay.forEach(
+        function (reason) {
 
+          const listItem =
+            document.createElement("li");
 
 
-</script>
+          listItem.textContent =
+            reason;
 
+
+          reasonsList.appendChild(
+            listItem
+          );
+
+        }
+      );
+
+    }
+
+
+
+    function clearAnalysis() {
+
+      document.getElementById("sms").value = "";
+
+
+      document
+        .getElementById("analysisReport")
+        .classList.remove("visible");
+
+
+      document.getElementById("visualAlert").className =
+        "visual-alert";
+
+
+      document.getElementById("visualAlert").textContent =
+        "";
+
+
+      document
+        .getElementById("guardianAction")
+        .classList.remove("visible");
+
+
+      showStatus(
+        "voiceStatus",
+        ""
+      );
+
+
+      lastAnalysis = null;
+
+    }
+
+
+
+    /*
+    ============================================
+    DEMONSTRATION SAMPLES
+    ============================================
+    */
+
+    function loadSample(sampleType) {
+
+      const samples = {
+
+        bank:
+          "Dear customer, your bank account has been suspended. Click https://secure-bank-login.xyz immediately and provide your BVN and OTP to restore access.",
+
+        investment:
+          "Invest ₦20,000 today and receive ₦200,000 guaranteed profit within 24 hours. Limited slots available. Send money now.",
+
+        grant:
+          "Congratulations! You have qualified for a CBN grant. Pay a ₦5,000 processing fee and click bit.ly/claim-grant to receive your money.",
+
+        safe:
+          "Hello, our family meeting has been moved to Saturday at 10am. Please call me when you arrive."
+
+      };
+
+
+      document.getElementById("sms").value =
+        samples[sampleType] || "";
+
+
+      document.getElementById("sms").focus();
+
+    }
+
+
+
+    /*
+    ============================================
+    STATISTICS DASHBOARD
+    ============================================
+    */
+
+    function updateStatistics(score) {
+
+      const statistics =
+        getSavedData(
+          STORAGE_KEYS.statistics,
+          {
+            checked: 0,
+            detected: 0,
+            highRisk: 0
+          }
+        );
+
+
+      statistics.checked += 1;
+
+
+      if (score >= 40) {
+
+        statistics.detected += 1;
+
+      }
+
+
+      if (score >= 70) {
+
+        statistics.highRisk += 1;
+
+      }
+
+
+      saveData(
+        STORAGE_KEYS.statistics,
+        statistics
+      );
+
+
+      displayStatistics();
+
+    }
+
+
+
+    function displayStatistics() {
+
+      const statistics =
+        getSavedData(
+          STORAGE_KEYS.statistics,
+          {
+            checked: 0,
+            detected: 0,
+            highRisk: 0
+          }
+        );
+
+
+      const reports =
+        getSavedData(
+          STORAGE_KEYS.reports,
+          []
+        );
+
+
+      document
+        .getElementById("messagesCheckedCount")
+        .textContent =
+
+        statistics.checked || 0;
+
+
+      document
+        .getElementById("threatsDetectedCount")
+        .textContent =
+
+        statistics.detected || 0;
+
+
+      document
+        .getElementById("highRiskCount")
+        .textContent =
+
+        statistics.highRisk || 0;
+
+
+      document
+        .getElementById("scamReportCount")
+        .textContent =
+
+        reports.length;
+
+    }
+
+
+
+    /*
+    ============================================
+    FAMILY GUARDIAN SYSTEM
+    ============================================
+    */
+
+    function normaliseWhatsAppNumber(phoneNumber) {
+
+      let number =
+        String(phoneNumber || "")
+          .replace(/\D/g, "");
+
+
+      if (
+        number.startsWith("0") &&
+        number.length === 11
+      ) {
+
+        number =
+          "234" + number.slice(1);
+
+      }
+
+
+      return number;
+
+    }
+
+
+
+    function validGuardianNumber(phoneNumber) {
+
+      const number =
+        normaliseWhatsAppNumber(phoneNumber);
+
+
+      return (
+        number.length >= 10 &&
+        number.length <= 15
+      );
+
+    }
+
+
+
+    function saveGuardian() {
+
+      const name =
+        document
+          .getElementById("guardianName")
+          .value
+          .trim();
+
+
+      const phone =
+        document
+          .getElementById("guardianPhone")
+          .value
+          .trim();
+
+
+      const relationship =
+        document
+          .getElementById("guardianRelationship")
+          .value;
+
+
+      const permission =
+        document
+          .getElementById("guardianConsent")
+          .checked;
+
+
+
+      if (!name) {
+
+        showStatus(
+          "guardianStatus",
+          "Enter the trusted contact's name.",
+          "error"
+        );
+
+        return;
+
+      }
+
+
+
+      if (!validGuardianNumber(phone)) {
+
+        showStatus(
+          "guardianStatus",
+          "Enter a valid WhatsApp number, preferably using +234.",
+          "error"
+        );
+
+        return;
+
+      }
+
+
+
+      if (!permission) {
+
+        showStatus(
+          "guardianStatus",
+          "Confirm that you have permission to save this contact.",
+          "error"
+        );
+
+        return;
+
+      }
+
+
+
+      const guardian = {
+
+        name,
+
+        phone:
+          normaliseWhatsAppNumber(phone),
+
+        relationship,
+
+        permission: true,
+
+        savedAt:
+          new Date().toISOString()
+
+      };
+
+
+
+      if (
+        saveData(
+          STORAGE_KEYS.guardian,
+          guardian
+        )
+      ) {
+
+        showStatus(
+          "guardianStatus",
+          "Guardian saved successfully: " + name + ".",
+          "success"
+        );
+
+
+        displayGuardian();
+
+      } else {
+
+        showStatus(
+          "guardianStatus",
+          "This browser could not save the guardian.",
+          "error"
+        );
+
+      }
+
+    }
+
+
+
+    function displayGuardian() {
+
+      const guardian =
+        getSavedData(
+          STORAGE_KEYS.guardian,
+          null
+        );
+
+
+      const display =
+        document.getElementById("savedGuardian");
+
+
+      if (!guardian) {
+
+        display.textContent =
+          "No guardian saved.";
+
+        return;
+
+      }
+
+
+      const maskedPhone =
+
+        guardian.phone.length > 4
+
+          ? guardian.phone.slice(0, 3) +
+            "****" +
+            guardian.phone.slice(-4)
+
+          : guardian.phone;
+
+
+      display.textContent =
+
+        guardian.name +
+
+        " (" +
+
+        guardian.relationship +
+
+        ") — WhatsApp: " +
+
+        maskedPhone;
+
+    }
+
+
+
+    function removeGuardian() {
+
+      const guardian =
+        getSavedData(
+          STORAGE_KEYS.guardian,
+          null
+        );
+
+
+      if (!guardian) {
+
+        showStatus(
+          "guardianStatus",
+          "No guardian is currently saved."
+        );
+
+        return;
+
+      }
+
+
+      const confirmed =
+        window.confirm(
+
+          "Remove " +
+
+          guardian.name +
+
+          " as the trusted guardian?"
+
+        );
+
+
+      if (!confirmed) {
+
+        return;
+
+      }
+
+
+      localStorage.removeItem(
+        STORAGE_KEYS.guardian
+      );
+
+
+      document.getElementById("guardianName").value =
+        "";
+
+
+      document.getElementById("guardianPhone").value =
+        "";
+
+
+      document.getElementById("guardianConsent").checked =
+        false;
+
+
+      showStatus(
+        "guardianStatus",
+        "Guardian removed.",
+        "success"
+      );
+
+
+      displayGuardian();
+
+
+      hideGuardianAlert();
+
+    }
+
+
+
+    function prepareGuardianAlert(score) {
+
+      const guardian =
+        getSavedData(
+          STORAGE_KEYS.guardian,
+          null
+        );
+
+
+      const alertArea =
+        document.getElementById("guardianAction");
+
+
+      const prompt =
+        document.getElementById("guardianPrompt");
+
+
+      if (score < 70) {
+
+        alertArea.classList.remove("visible");
+
+        return;
+
+      }
+
+
+      alertArea.classList.add("visible");
+
+
+      if (!guardian) {
+
+        prompt.textContent =
+          "High-risk scam detected. No trusted guardian has been saved yet.";
+
+        return;
+
+      }
+
+
+      prompt.textContent =
+
+        "High-risk scam detected. Do you want to alert " +
+
+        guardian.name +
+
+        "?";
+
+    }
+
+
+
+    function hideGuardianAlert() {
+
+      document
+        .getElementById("guardianAction")
+        .classList.remove("visible");
+
+    }
+
+
+
+    function sendGuardianAlert() {
+
+      const guardian =
+        getSavedData(
+          STORAGE_KEYS.guardian,
+          null
+        );
+
+
+      if (!guardian) {
+
+        showStatus(
+          "guardianStatus",
+          "Save a trusted guardian before sending an alert.",
+          "error"
+        );
+
+
+        document
+          .getElementById("guardianName")
+          .focus();
+
+
+        return;
+
+      }
+
+
+      if (
+        !lastAnalysis ||
+        lastAnalysis.score < 70
+      ) {
+
+        window.alert(
+          "A high-risk scam must be detected before sending an alert."
+        );
+
+        return;
+
+      }
+
+
+      const includeExcerpt =
+        document
+          .getElementById("includeExcerpt")
+          .checked;
+
+
+      let excerpt = "";
+
+
+      if (includeExcerpt) {
+
+        excerpt =
+
+          "\n\nMessage excerpt: \"" +
+
+          lastAnalysis.message.slice(0, 180) +
+
+          (
+            lastAnalysis.message.length > 180
+              ? "..."
+              : ""
+          ) +
+
+          "\"";
+
+      }
+
+
+      const whatsappMessage =
+
+        "🚨 ScamShield.ng Family Guardian Alert\n\n" +
+
+        "A high-risk suspicious message was detected for your family member.\n\n" +
+
+        "Risk score: " +
+
+        lastAnalysis.score +
+
+        "/100\n" +
+
+        "Threat category: " +
+
+        lastAnalysis.category +
+
+        "\n\nRecommended action: " +
+
+        lastAnalysis.recommendation +
+
+        excerpt +
+
+        "\n\nPlease contact them and help them verify the message safely. " +
+
+        "This alert was opened with the user's permission.";
+
+
+
+      const whatsappLink =
+
+        "https://wa.me/" +
+
+        guardian.phone +
+
+        "?text=" +
+
+        encodeURIComponent(
+          whatsappMessage
+        );
+
+
+
+      const newWindow =
+        window.open(
+          whatsappLink,
+          "_blank"
+        );
+
+
+      if (newWindow) {
+
+        newWindow.opener = null;
+
+      }
+
+    }
+
+
+
+    /*
+    ============================================
+    SCAM REPORTING SYSTEM
+    ============================================
+    */
+
+    function prepareReportFromAnalysis(analysis) {
+
+      document.getElementById("reportMessage").value =
+        analysis.message;
+
+
+      const categories = [
+
+        "Phishing / Account Takeover",
+
+        "Fake Bank Verification",
+
+        "Investment / Ponzi Fraud",
+
+        "Fake Grant / Government Impersonation",
+
+        "Fake Loan",
+
+        "Fake Giveaway / Lottery",
+
+        "WhatsApp Impersonation"
+
+      ];
+
+
+      if (
+        categories.includes(
+          analysis.category
+        )
+      ) {
+
+        document.getElementById("reportCategory").value =
+          analysis.category;
+
+      }
+
+    }
+
+
+
+    function copyCurrentAnalysisToReport() {
+
+      if (!lastAnalysis) {
+
+        showStatus(
+          "reportStatus",
+          "Analyse a message first.",
+          "error"
+        );
+
+        return;
+
+      }
+
+
+      prepareReportFromAnalysis(
+        lastAnalysis
+      );
+
+
+      showStatus(
+        "reportStatus",
+        "Current analysis copied into the report form.",
+        "success"
+      );
+
+    }
+
+
+
+    function submitScamReport() {
+
+      const message =
+        document
+          .getElementById("reportMessage")
+          .value
+          .trim();
+
+
+      const platform =
+        document
+          .getElementById("reportPlatform")
+          .value;
+
+
+      const category =
+        document
+          .getElementById("reportCategory")
+          .value;
+
+
+
+      if (!message) {
+
+        showStatus(
+          "reportStatus",
+          "Enter the scam message before submitting.",
+          "error"
+        );
+
+        return;
+
+      }
+
+
+      const reports =
+        getSavedData(
+          STORAGE_KEYS.reports,
+          []
+        );
+
+
+      const riskScore =
+
+        lastAnalysis &&
+        lastAnalysis.message === message
+
+          ? lastAnalysis.score
+
+          : null;
+
+
+
+      const newReport = {
+
+        id:
+          Date.now() +
+          "-" +
+          Math.random()
+            .toString(16)
+            .slice(2),
+
+        message,
+
+        platform,
+
+        category,
+
+        riskScore,
+
+        dateReported:
+          new Date().toISOString()
+
+      };
+
+
+      reports.unshift(newReport);
+
+
+      if (
+        saveData(
+          STORAGE_KEYS.reports,
+          reports.slice(0, 100)
+        )
+      ) {
+
+        showStatus(
+          "reportStatus",
+          "Scam report saved on this device. Thank you for helping protect others.",
+          "success"
+        );
+
+
+        document.getElementById("reportMessage").value =
+          "";
+
+
+        displayRecentReports();
+
+
+        displayStatistics();
+
+      } else {
+
+        showStatus(
+          "reportStatus",
+          "The report could not be saved.",
+          "error"
+        );
+
+      }
+
+    }
+
+
+
+    function displayRecentReports() {
+
+      const reportContainer =
+        document.getElementById("recentReports");
+
+
+      const reports =
+        getSavedData(
+          STORAGE_KEYS.reports,
+          []
+        );
+
+
+      reportContainer.innerHTML = "";
+
+
+      if (reports.length === 0) {
+
+        const emptyMessage =
+          document.createElement("p");
+
+
+        emptyMessage.className =
+          "helper-text";
+
+
+        emptyMessage.textContent =
+          "No local reports yet.";
+
+
+        reportContainer.appendChild(
+          emptyMessage
+        );
+
+
+        return;
+
+      }
+
+
+      reports
+        .slice(0, 4)
+        .forEach(function (report) {
+
+          const reportBox =
+            document.createElement("div");
+
+
+          reportBox.className =
+            "recent-report";
+
+
+          const title =
+            document.createElement("strong");
+
+
+          title.textContent =
+
+            report.category +
+
+            " — " +
+
+            report.platform;
+
+
+
+          const date =
+            document.createElement("small");
+
+
+          const reportDate =
+            new Date(
+              report.dateReported
+            );
+
+
+          date.textContent =
+
+            reportDate.toLocaleString() +
+
+            (
+              report.riskScore !== null
+
+                ? " — " +
+                  report.riskScore +
+                  "% risk"
+
+                : ""
+            );
+
+
+
+          const preview =
+            document.createElement("p");
+
+
+          preview.textContent =
+
+            report.message.length > 140
+
+              ? report.message.slice(0, 140) + "..."
+
+              : report.message;
+
+
+
+          reportBox.appendChild(title);
+
+          reportBox.appendChild(
+            document.createElement("br")
+          );
+
+          reportBox.appendChild(date);
+
+          reportBox.appendChild(preview);
+
+
+          reportContainer.appendChild(
+            reportBox
+          );
+
+        });
+
+    }
+
+
+
+    /*
+    ============================================
+    SCREENSHOT PREVIEW
+    ============================================
+    */
+
+    function previewScreenshot(event) {
+
+      const selectedFile =
+        event.target.files &&
+        event.target.files[0];
+
+
+      const preview =
+        document.getElementById("screenshotPreview");
+
+
+      if (!selectedFile) {
+
+        preview.classList.remove("visible");
+
+
+        showStatus(
+          "screenshotStatus",
+          "No screenshot selected."
+        );
+
+
+        return;
+
+      }
+
+
+      if (
+        !selectedFile.type.startsWith("image/")
+      ) {
+
+        preview.classList.remove("visible");
+
+
+        showStatus(
+          "screenshotStatus",
+          "Choose a valid image file.",
+          "error"
+        );
+
+
+        return;
+
+      }
+
+
+      if (
+        selectedFile.size >
+        6 * 1024 * 1024
+      ) {
+
+        preview.classList.remove("visible");
+
+
+        showStatus(
+          "screenshotStatus",
+          "Choose an image smaller than 6 MB.",
+          "error"
+        );
+
+
+        return;
+
+      }
+
+
+      if (screenshotURL) {
+
+        URL.revokeObjectURL(
+          screenshotURL
+        );
+
+      }
+
+
+      screenshotURL =
+        URL.createObjectURL(
+          selectedFile
+        );
+
+
+      preview.src =
+        screenshotURL;
+
+
+      preview.classList.add(
+        "visible"
+      );
+
+
+      showStatus(
+        "screenshotStatus",
+        "Screenshot preview loaded. Copy or type the visible message into the analyser.",
+        "success"
+      );
+
+    }
+
+
+
+    /*
+    ============================================
+    RESET LOCAL DEMO DATA
+    ============================================
+    */
+
+    function resetLocalData() {
+
+      const confirmed =
+        window.confirm(
+
+          "Reset all ScamShield local statistics, reports, guardian details and accessibility settings?"
+
+        );
+
+
+      if (!confirmed) {
+
+        return;
+
+      }
+
+
+      Object.values(
+        STORAGE_KEYS
+      ).forEach(function (storageKey) {
+
+        localStorage.removeItem(
+          storageKey
+        );
+
+      });
+
+
+      window.location.reload();
+
+    }
+
+
+
+    /*
+    ============================================
+    START APPLICATION
+    ============================================
+    */
+
+    function initialiseApplication() {
+
+      applyAccessibilitySettings(
+        getAccessibilitySettings()
+      );
+
+
+      displayStatistics();
+
+
+      displayGuardian();
+
+
+      displayRecentReports();
+
+    }
+
+
+
+    document.addEventListener(
+      "DOMContentLoaded",
+      initialiseApplication
+    );
+
+  </script>
 
 </body>
-
 </html>
