@@ -58,7 +58,7 @@ Run Locally
 
 Clone the repository:
 
-git clone https://github.com/YOUR-USERNAME/scamshield-ng.git
+git clone https://github.com/izu500/scamshield-ng.git
 cd scamshield-ng
 
 Open index.html in a modern browser.
